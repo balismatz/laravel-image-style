@@ -32,11 +32,8 @@ Require the package using Composer:
 composer require balismatz/laravel-image-style
 ```
 
-## Configuration
-
-Package provides various configuration options. If you want to change the
-default configuration, publish the [config](config/image-style.php) file by
-running the following command:
+Publish the [config](config/image-style.php) file by running the following
+command:
 
 ```shell
 php artisan vendor:publish --provider="BalisMatz\ImageStyle\ImageStyleServiceProvider"
@@ -58,12 +55,12 @@ php artisan image-style:make
 
 After running the above command, the following prompts will appear:
 
-1) ***What should the image style be named?***
+1. ***What should the image style be named?***
 
    Set the image style class name. This name will be used to autogenerate - if
    needed - the unique image style ID (see next).
 
-2) ***ID***
+2. ***ID***
 
    By default, the package will try to generate the unique image style ID based
    on the class name, but this prompt gives you the ability to set your own ID,
@@ -74,13 +71,13 @@ After running the above command, the following prompts will appear:
    > - In cases of multiple image styles with same ID, the first detected will
    > be considered as valid.
 
-3) ***Help text***
+3. ***Help text***
 
    The package gives you the ability to list all available image styles. Here
    you can set a help text (important for teams) to describe the image
    modifications, why it is created, when to use it or other useful information.
 
-4) ***Status***
+4. ***Status***
 
    There are cases where you want to have a "Disabled" image style, ie. to use
    it in the future. You can set it's status by selecting one of the available
@@ -144,7 +141,7 @@ following methods.
 >
 > - ```ImageStyle``` facade is macroable.
 
-1) **[path()](src/ImageStyle.php#L494)**
+1. **[path()](src/ImageStyle.php#L494)**
 
     Based on the given image style and the original image path, creates,
     recreates (see parameters) or retrieves the styled image and returns it's
@@ -153,7 +150,7 @@ following methods.
     > Provides a basic functionality and it is useful when you simply want to
     > create a styled image. See the "Performance" section.
 
-2) **[url()](src/ImageStyle.php#L924)**
+2. **[url()](src/ImageStyle.php#L924)**
 
     Based on the given image style and the original image path, creates,
     recreates (see parameters) or retrieves the styled image and returns it's
@@ -162,7 +159,7 @@ following methods.
     > It is useful when you want to display a styled image with the ```<img>```
     > HTML tag.
 
-3) **[imageInformation()](src/ImageStyle.php#L62)**
+3. **[imageInformation()](src/ImageStyle.php#L62)**
 
     Based on the given image style and the original image path, creates,
     recreates (see parameters) or retrieves the styled image and returns an
@@ -173,7 +170,7 @@ following methods.
     > HTML tag and the ```lazy``` loading attribute. You can set the ```<img>```
     > height and width to avoid unexpected behaviors (ie. flickering).
 
-4) **[paths()](src/ImageStyle.php#L710)**
+4. **[paths()](src/ImageStyle.php#L710)**
 
     Based on the given image styles (array or string) and the original image
     path, creates, recreates (see parameters) or retrieves the styled images and
@@ -182,7 +179,7 @@ following methods.
     > Provides a basic functionality and it is useful when you simply want to
     > create multiple styled images. See the "Performance" section.
 
-5) **[urls()](src/ImageStyle.php#L1128)**
+5. **[urls()](src/ImageStyle.php#L1128)**
 
     Based on the given image styles (array or string) and the original image
     path, creates, recreates (see parameters) or retrieves the styled images and
@@ -192,7 +189,7 @@ following methods.
     > with the ```<img>``` HTML tag
     > ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images)).
 
-6) **[imagesInformation()](src/ImageStyle.php#L278)**
+6. **[imagesInformation()](src/ImageStyle.php#L278)**
 
     Based on the given image styles (array or string) and the original image
     path, creates, recreates (see parameters) or retrieves the styled images and
@@ -291,19 +288,22 @@ the image style information retrieval.
 
 ## Troubleshooting
 
-If image style is not listed on the available styles, check if:
+1. If image style is not listed on the available styles, check if:
 
-1) Class is in the ```/app/ImageStyles``` directory.
-2) Class is placed in a supported directory level.
-3) Class extends the ```ImageStyleBase``` class.
-4) Class is not an ```abstract``` class.
+   - Class is in the ```/app/ImageStyles``` directory.
+   - Class is placed in a supported directory level.
+   - Class extends the ```ImageStyleBase``` class.
+   - Class is not an ```abstract``` class.
 
-If all of the above is correct, try to clear the cache of image styles
-information by running the following command:
+   If all of the above is correct, try to clear the cache of image styles
+   information by running the following command:
 
-```shell
-php artisan image-style:clear
-```
+   ```shell
+   php artisan image-style:clear
+   ```
+
+2. If styled images are not displayed, check the ```filesystems.default``` and
+   ```image-style.filesystem``` config.
 
 ## License
 
