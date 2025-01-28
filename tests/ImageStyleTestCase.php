@@ -18,27 +18,27 @@ abstract class ImageStyleTestCase extends TestCase
     protected function setUp(): void
     {
         $this->afterApplicationCreated(function () {
-            $this->artisan('image-style:make ImageStyle')->run();
+            $this->artisan('make:image-style ImageStyle')->run();
 
-            $this->artisan('image-style:make CustomIdImageStyle --id=custom-image-style-id')->run();
+            $this->artisan('make:image-style CustomIdImageStyle --id=custom-image-style-id')->run();
 
-            $this->artisan('image-style:make InactiveImageStyle --active=false')->run();
+            $this->artisan('make:image-style InactiveImageStyle --active=false')->run();
 
-            $this->artisan('image-style:make ThumbnailImageStyle --help-text="Resize image to 100px"')->run();
+            $this->artisan('make:image-style ThumbnailImageStyle --help-text="Resize image to 100px"')->run();
 
-            $this->artisan('image-style:make UserThumbnail')->run();
+            $this->artisan('make:image-style UserThumbnail')->run();
 
-            $this->artisan('image-style:make Posts/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Posts/ThumbnailImageStyle')->run();
 
-            $this->artisan('image-style:make Posts/Show/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Posts/Show/ThumbnailImageStyle')->run();
 
-            $this->artisan('image-style:make Posts/Show/Gallery/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Posts/Show/Gallery/ThumbnailImageStyle')->run();
 
-            $this->artisan('image-style:make Posts/Show/Gallery/Item/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Posts/Show/Gallery/Item/ThumbnailImageStyle')->run();
 
-            $this->artisan('image-style:make Posts/ConflictImageStyle')->run();
+            $this->artisan('make:image-style Posts/ConflictImageStyle')->run();
 
-            $this->artisan('image-style:make PostsConflictImageStyle')->run();
+            $this->artisan('make:image-style PostsConflictImageStyle')->run();
         });
 
         $this->beforeApplicationDestroyed(function () {

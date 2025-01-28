@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
-#[AsCommand(name: 'image-style:make')]
+#[AsCommand(name: 'make:image-style')]
 class ImageStyleMakeCommand extends GeneratorCommand
 {
     /**
@@ -19,7 +19,7 @@ class ImageStyleMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'image-style:make';
+    protected $name = 'make:image-style';
 
     /**
      * The console command description.

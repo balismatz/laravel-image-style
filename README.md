@@ -50,7 +50,7 @@ php artisan vendor:publish --provider="BalisMatz\ImageStyle\ImageStyleServicePro
 You can create an image style by running the following command:
 
 ```shell
-php artisan image-style:make
+php artisan make:image-style
 ```
 
 After running the above command, the following prompts will appear:
@@ -88,7 +88,7 @@ After running the above command, the following prompts will appear:
 > following command for more information:
 >
 > ```shell
-> php artisan image-style:make --help
+> php artisan make:image-style --help
 > ```
 
 Image style classes are placed in ```/app/ImageStyles``` directory.
