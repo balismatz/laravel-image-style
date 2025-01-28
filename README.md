@@ -132,9 +132,10 @@ The disk that styled images will be stored, depends on
 following methods.
 
 > [!IMPORTANT]
-> - The following methods are available to you by either the
-> ```BalisMatz\ImageStyle\Facades\ImageStyle``` facade or the ```imageStyle()```
-> function.
+> - The following methods are available to you by:
+>   - Facade: ```BalisMatz\ImageStyle\Facades\ImageStyle```
+>   - Function: ```imageStyle()```
+>   - Dependency injection: ```BalisMatz\ImageStyle\ImageStyle```
 >
 > - In blade templates you can use the ```ImageStyle``` facade without namespace,
 > as ```{{ ImageStyle::url() }}```.
