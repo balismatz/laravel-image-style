@@ -138,7 +138,7 @@ following methods.
 >   - Dependency injection: ```BalisMatz\ImageStyle\ImageStyle```
 >
 > - In blade templates you can use the ```ImageStyle``` facade without namespace,
-> as ```{{ ImageStyle::url() }}```.
+> as <br>```{{ ImageStyle::url() }}```.
 >
 > - ```ImageStyle``` facade is macroable.
 
