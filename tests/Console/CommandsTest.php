@@ -64,4 +64,28 @@ class CommandsTest extends ImageStyleTestCase
     {
         $this->artisan('image-style:list')->assertSuccessful();
     }
+
+    /**
+     * Tests the optimize command.
+     */
+    public function test_optimize(): void
+    {
+        $this->artisan('optimize')->assertSuccessful();
+
+        $this->assertTrue(
+            Cache::has($this->imageStyleManager->getCacheKey())
+        );
+    }
+
+    /**
+     * Tests the optimize clear command.
+     */
+    public function test_optimize_clear(): void
+    {
+        $this->artisan('optimize:clear')->assertSuccessful();
+
+        $this->assertFalse(
+            Cache::has($this->imageStyleManager->getCacheKey())
+        );
+    }
 }

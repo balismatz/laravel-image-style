@@ -275,17 +275,17 @@ You can preview the image style modifications by calling the
 
 ## Deployment
 
-If you are building an application with many image styles, you should make sure
-that you are running the ```image-style:cache``` Artisan command during your
-deployment process:
+When the [```optimize```](https://laravel.com/docs/master/deployment#optimization)
+Artisan command is executed, all image style information is persisted to the
+[configured cache store](config/image-style.php#L90), which improves the
+performance of image style information retrieval.
+
+If the ```optimize``` Artisan command is not part of your deployment process,
+you should explicitly run the ```image-style:cache``` Artisan command:
 
 ```shell
 php artisan image-style:cache
 ```
-
-This command caches the image styles information in the
-[configured cache store](config/image-style.php#L90), improving the performance of
-the image style information retrieval.
 
 ## Troubleshooting
 

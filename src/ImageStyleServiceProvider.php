@@ -61,6 +61,11 @@ class ImageStyleServiceProvider extends ServiceProvider
                 ImageStyleListCommand::class,
                 ImageStyleMakeCommand::class,
             ]);
+
+            $this->optimizes(
+                optimize: 'image-style:cache',
+                clear: 'image-style:clear'
+            );
         }
     }
 }
