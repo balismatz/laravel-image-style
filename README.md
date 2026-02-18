@@ -1,25 +1,28 @@
 # Laravel Image Style
 
-A Laravel package to manage your app image styles with an easy and organized
-way. Each image style is a PHP class that contains the image modifications.
-A facade, a helper function and an Artisan command are provided to create,
-retrieve and flush styled images. Also, Artisan commands are provided to easily
-create image styles, list all the available image styles and cache or clear
-their information.
+A Laravel package designed to manage application image styles in a simple and
+organized way. Each image style is implemented as a dedicated PHP class that
+defines the corresponding image modifications.
 
-To modify images, it uses the most popular open source PHP image processing
+It provides a facade and a helper function for creating and retrieving styled images.
+It also includes Artisan commands to create image styles, list all available image
+styles, cache or clear image styles information, and flush styled images when
+needed.
+
+Image modifications are powered by the popular open source PHP image processing
 library, the [Intervention Image](https://github.com/Intervention/image).
 
-There is an official Intervention Image package for Laravel
+An official Intervention Image package for Laravel
 ([Intervention Image Laravel](https://github.com/Intervention/image-laravel))
-with a basic functionality. Check it out.
+is also available and provides basic functionality.
 
 > [!IMPORTANT]
-> This is **NOT** the official
+> This package is **NOT** the official
 > [Intervention Image Laravel](https://github.com/Intervention/image-laravel)
 > package.
 
 ## Requirements
+
 - PHP 8.4 or higher
 - Laravel 11.0 or higher
 - Intervention Image 3.9 or higher
@@ -41,60 +44,56 @@ php artisan vendor:publish --provider="BalisMatz\ImageStyle\ImageStyleServicePro
 
 ## Usage
 
-> [!NOTE]
-> An extended documentation and a repository with examples will come in the near
-> future.
-
 ### Create image styles
 
-You can create an image style by running the following command:
+You may create a new image style by running the following command:
 
 ```shell
 php artisan make:image-style
 ```
 
-After running the above command, the following prompts will appear:
+After running the command above, you will be prompted for the following:
 
 1. ***What should the image style be named?***
 
-   Set the image style class name. This name will be used to autogenerate - if
-   needed - the unique image style ID (see next).
+   Specify the image style class name. This name will be used to autogenerate
+   — if needed — the unique image style ID (see below).
 
 2. ***ID***
 
-   By default, the package will try to generate the unique image style ID based
-   on the class name, but this prompt gives you the ability to set your own ID,
-   if you want. Leave it empty to autogenerate the image style ID.
+   By default, the package generates the unique image style ID based
+   on the class name. This prompt allows you to define a custom ID, if desired.
+   Leave it empty to use the default behavior.
 
-   > - If the image style ID can not be generated from the given class name,
-   > fallbacks to "default".
-   > - In cases of multiple image styles with same ID, the first detected will
-   > be considered as valid.
+   > - If the image style ID cannot be generated from the provided class name,
+   > it falls back to "default".
+   > - If multiple image styles have the same ID, the first detected will be
+   > considered valid.
 
 3. ***Help text***
 
-   The package gives you the ability to list all available image styles. Here
-   you can set a help text (important for teams) to describe the image
-   modifications, why it is created, when to use it or other useful information.
+   A command is provided to list all available image styles. Here, you may
+   define a help text (useful for teams) to describe the image modifications,
+   the use cases, or any other information.
 
 4. ***Status***
 
-   There are cases where you want to have a "Disabled" image style, ie. to use
-   it in the future. You can set it's status by selecting one of the available
-   options. "Default" is considered as active.
+   In certain scenarios, you may wish to define an image style as "Disabled"
+   (e.g., for future use). Select the desired status from the available options.
+   The "Default" status is considered active.
 
 > [!TIP]
-> You can avoid the prompts by passing the options in the command. Run the
-> following command for more information:
+> You may bypass the interactive prompts by providing the options directly in
+> the command. For more information, run the following command:
 >
 > ```shell
 > php artisan make:image-style --help
 > ```
 
-Image style classes are placed in ```/app/ImageStyles``` directory.
+Image style classes are located in the `/app/ImageStyles` directory.
 
 > [!TIP]
-> You can use directory depth levels (from 0 to 3) to organize better your image
+> You can use directory depth levels (from 0 to 3) to better organize your image
 > styles.
 >
 > ```
@@ -108,14 +107,15 @@ Image style classes are placed in ```/app/ImageStyles``` directory.
 
 ### List image styles
 
-You can list all available image styles by running the following command:
+List all available image styles by running the following command:
 
 ```shell
 php artisan image-style:list
 ```
 
 > [!TIP]
-> There are various list options. Run the following command for more information:
+> Various listing options are available. For more information, run the following
+> command:
 >
 > ```shell
 > php artisan image-style:list --help
@@ -123,165 +123,171 @@ php artisan image-style:list
 
 ### Create / Retrieve styled images
 
-Styled images are stored in the ```styles/{{ image-style-id }}``` directory.
-In example, the thumbnail (image style ID) of ```posts/main.jpg``` image will be
-saved at ```/styles/thumbnail/posts/main.jpg```.
+Styled images are stored in the `styles/{{ image-style-id }}` directory.
+For example, the thumbnail (image style ID) of the `posts/main.jpg` image
+will be saved at `/styles/thumbnail/posts/main.jpg`.
 
-The disk that styled images will be stored, depends on
-[configuration](config/image-style.php#L78) or the given parameters of the
+The disk on which styled images will be stored depends on the
+[configuration](config/image-style.php#L78) or the parameters provided to the
 following methods.
 
 > [!IMPORTANT]
-> - The following methods are available to you by:
->   - Facade: ```BalisMatz\ImageStyle\Facades\ImageStyle```
->   - Function: ```imageStyle()```
->   - Dependency injection: ```BalisMatz\ImageStyle\ImageStyle```
+> - The following methods are available through:
+>   - Facade: `BalisMatz\ImageStyle\Facades\ImageStyle`
+>   - Function: `imageStyle()`
+>   - Dependency injection: `BalisMatz\ImageStyle\ImageStyle`
 >
-> - In blade templates you can use the ```ImageStyle``` facade without namespace,
-> as <br>```{{ ImageStyle::url() }}```.
+> - In Blade templates, the `ImageStyle` facade can be used without
+> namespace `{{ ImageStyle::url() }}`.
 >
-> - ```ImageStyle``` facade is macroable.
+> - The `ImageStyle` facade is macroable.
 
 1. **[path()](src/ImageStyle.php#L494)**
 
-    Based on the given image style and the original image path, creates,
-    recreates (see parameters) or retrieves the styled image and returns it's
-    storage path.
+    Based on the given image style and the original image path, this method
+    creates, recreates (based on the provided parameters), or retrieves the styled image and
+    returns its storage path.
 
-    > Provides a basic functionality and it is useful when you simply want to
-    > create a styled image. See the "Performance" section.
+    > Provides a basic functionality and is useful when you simply need to
+    > create a styled image. See the "Performance" section below.
 
 2. **[url()](src/ImageStyle.php#L924)**
 
-    Based on the given image style and the original image path, creates,
-    recreates (see parameters) or retrieves the styled image and returns it's
-    storage URL.
+    Based on the given image style and the original image path, this method
+    creates, recreates (based on the provided parameters), or retrieves the styled image and
+    returns its storage URL.
 
-    > It is useful when you want to display a styled image with the ```<img>```
+    > This is useful when displaying a styled image using the `<img>`
     > HTML tag.
 
 3. **[imageInformation()](src/ImageStyle.php#L62)**
 
-    Based on the given image style and the original image path, creates,
-    recreates (see parameters) or retrieves the styled image and returns an
-    ```ImageStyleImageInformation``` object that contains the image URL, height,
-    width, mimetype and the given parameters.
+    Based on the given image style and the original image path, this method
+    creates, recreates (based on the provided parameters), or retrieves the styled image and
+    returns an `ImageStyleImageInformation` object containing the image URL,
+    height, width, mimetype, and the provided parameters.
 
-    > It is useful when you want to display a styled image with the ```<img>```
-    > HTML tag and the ```lazy``` loading attribute. You can set the ```<img>```
-    > height and width to avoid unexpected behaviors (ie. flickering).
+    > This is useful when displaying a styled image using the `<img>`
+    > HTML tag and the `lazy` loading attribute. You may specify the
+    > `<img>` height and width to avoid unexpected behaviors
+    > (e.g., flickering).
 
 4. **[paths()](src/ImageStyle.php#L710)**
 
     Based on the given image styles (array or string) and the original image
-    path, creates, recreates (see parameters) or retrieves the styled images and
-    returns their storage paths.
+    path, this method creates, recreates (based on the provided parameters), or retrieves the
+    styled images and returns their storage paths.
 
-    > Provides a basic functionality and it is useful when you simply want to
-    > create multiple styled images. See the "Performance" section.
+    > Provides a basic functionality and is useful when you simply need to
+    > create multiple styled images. See the "Performance" section below.
 
 5. **[urls()](src/ImageStyle.php#L1128)**
 
     Based on the given image styles (array or string) and the original image
-    path, creates, recreates (see parameters) or retrieves the styled images and
-    returns their storage URLs.
+    path, this method creates, recreates (based on the provided parameters), or retrieves the
+    styled images and returns their storage URLs.
 
-    > It is useful when you want to display responsive images - based on styles -
-    > with the ```<img>``` HTML tag
+    > This is useful when displaying responsive images - based on image styles -
+    > with the `<img>` HTML tag
     > ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images)).
 
 6. **[imagesInformation()](src/ImageStyle.php#L278)**
 
     Based on the given image styles (array or string) and the original image
-    path, creates, recreates (see parameters) or retrieves the styled images and
-    returns a collection of ```ImageStyleImageInformation``` objects that
-    contain the image URL, height, width, mimetype and the given parameters.
+    path, this method creates, recreates (based on the provided parameters), or retrieves the
+    styled images and returns a collection of `ImageStyleImageInformation`
+    objects containing the image URL, height, width, mimetype, and the provided
+    parameters.
 
-    > It is useful when you want to display responsive images - based on styles -
-    > with the ```<img>``` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images))
-    > or ```<picture>``` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture))
+    > This is useful when displaying responsive images - based on image styles - with
+    > the `<img>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images))
+    > or `<picture>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture))
     > HTML tags.
     >
-    > You can pass - to each style - parameters that will be returned with
-    > ```ImageStyleImageInformation``` objects. These parameters may contain the
-    > media query for each styled image.
+    > You can provide parameters for each image style. These parameters will be
+    > included in the `ImageStyleImageInformation` objects and may be used,
+    > for example, to define the media query associated with each styled image.
 
 > [!NOTE]
 > - Image style(s) parameter can be the image style ID or the class name
->    (with namespace). In example, ```App\ImageStyles\ThumbnailImageStyle::class```.
-> - ```paths()``` - ```urls()``` - ```imagesInformation()``` get multiple
->    styles as array or string, separate by "," (comma).
-> - All the above methods get style parameters (```$styleParameters```) that
->    are passed to image style class ```modifications()``` and ```quality()```
->    methods. In example, you can pass a dynamic watermark, focal point etc.
-> - All the above methods have the following name suffixes, to convert the
->    styled image(s) in other format:
->    - ```{methodName}ToJpeg()```
->    - ```{methodName}ToWebp()```
->    - ```{methodName}ToPng()```
->    - ```{methodName}ToGif()```
->    - ```{methodName}ToBmp()```
->    - ```{methodName}ToAvif()```
->    - ```{methodName}ToTiff()```
->    - ```{methodName}ToJpeg2000()```
->    - ```{methodName}ToHeic()```
+>    (with namespace). For example, `App\ImageStyles\ThumbnailImageStyle::class`.
+> - `paths()` - `urls()` - `imagesInformation()` accept multiple
+>    styles as an array or a comma-separated string.
+> - All the above methods accept style parameters (`$styleParameters`) that
+>    are passed to the image style class `modifications()` and `quality()`
+>    methods. For example, you can pass a dynamic watermark, focal point, etc.
+> - Each of the above methods also supports image format conversion using the
+>    following suffixes:
+>    - `{methodName}ToJpeg()`
+>    - `{methodName}ToWebp()`
+>    - `{methodName}ToPng()`
+>    - `{methodName}ToGif()`
+>    - `{methodName}ToBmp()`
+>    - `{methodName}ToAvif()`
+>    - `{methodName}ToTiff()`
+>    - `{methodName}ToJpeg2000()`
+>    - `{methodName}ToHeic()`
 
 > [!TIP]
-> Click each of the above methods to see the available parameters.
+> Click on each method above to view the available parameters.
 
 #### Fallback URL
 
-When style(s) or original image do not exist and based on the
-[configuration](config/image-style.php#L65), ```url()``` - ```urls()``` -
-```imageInformation()``` - ```imagesInformation()``` would return the default
-storage URL(s) or empty value(s).
+When image style(s) or original image do not exist, and depending on the
+[configuration](config/image-style.php#L65), the `url()`, `urls()`,
+`imageInformation()`, and `imagesInformation()` methods will return the
+default storage URL(s) or empty value(s).
 
 #### Quality
 
-You can change the quality of each image style by overriding the ```quality()```
-method from ```ImageStyleBase``` class.
+You may change the output quality of each image style by overriding the
+`quality()` method from `ImageStyleBase` class.
 
 #### Performance
 
 By default, styled images are created when one of the above methods is called.
-This means that styled images will be created the first time that a user visits
-the page. You can avoid this behavior by simply calling the ```path()``` or
-```paths()``` method (for each image) with a queued job or when the model,
-that references the image(s), is saved.
+This means that styled images are created the first time they are requested.
+You can avoid this behavior by calling the `path()` or `paths()`
+method (for each image), for example, when storing the original image.
 
 ### Flush styled images
 
-You can flush styled images by running the following command:
+Remove (flush) styled images by running the following command:
 
 ```shell
 php artisan image-style:flush
 ```
 
 > [!TIP]
-> You can avoid the prompts by passing the options in the command. Run the
-> following command for more information:
+> You may bypass the interactive prompts by providing the options directly in
+> the command. For more information, run the following command:
 >
 > ```shell
 > php artisan image-style:flush --help
 > ```
 
+## Usage Examples
+
+Usage examples are available in the
+[Laravel Image Style Demo repository](https://github.com/balismatz/laravel-image-style-demo).
+
 ## Preview
 
 You can preview the image style modifications by calling the
-[```preview()```](src/ImageStyle.php#L1329) method.
+[`preview()`](src/ImageStyle.php#L1329) method.
 
 > [!NOTE]
-> Preview image by [Freepik](https://www.freepik.com/).
+> Preview image is provided by [Freepik](https://www.freepik.com/).
 
 ## Deployment
 
-When the [```optimize```](https://laravel.com/docs/master/deployment#optimization)
+When the [`optimize`](https://laravel.com/docs/master/deployment#optimization)
 Artisan command is executed, all image style information is persisted to the
 [configured cache store](config/image-style.php#L90), which improves the
 performance of image style information retrieval.
 
-If the ```optimize``` Artisan command is not part of your deployment process,
-you should explicitly run the ```image-style:cache``` Artisan command:
+If the `optimize` Artisan command is not part of your deployment process,
+you should explicitly run the `image-style:cache` Artisan command:
 
 ```shell
 php artisan image-style:cache
@@ -289,22 +295,23 @@ php artisan image-style:cache
 
 ## Troubleshooting
 
-1. If image style is not listed on the available styles, check if:
+1. If an image style does not appear in the available styles list, verify that:
 
-   - Class is in the ```/app/ImageStyles``` directory.
-   - Class is placed in a supported directory level.
-   - Class extends the ```ImageStyleBase``` class.
-   - Class is not an ```abstract``` class.
+   - The class is located in the `/app/ImageStyles` directory.
+   - The class is located in a supported directory level.
+   - The class extends the `ImageStyleBase` class.
+   - The class is not declared as `abstract`.
 
-   If all of the above is correct, try to clear the cache of image styles
-   information by running the following command:
+   If everything above is correct, clear the image styles information
+   cache by running the following command:
 
    ```shell
    php artisan image-style:clear
    ```
 
-2. If styled images are not displayed, check the ```filesystems.default``` and
-   ```image-style.filesystem``` config.
+2. If styled images are not displayed, verify that the `filesystems.default`
+   and `image-style.filesystem` configuration values are properly
+   configured.
 
 ## License
 
