@@ -24,7 +24,7 @@ is also available and provides basic functionality.
 ## Requirements
 
 - PHP 8.4 or higher
-- Laravel 11.0 or higher
+- Laravel 12.0 or higher
 - Intervention Image 3.9 or higher
 
 ## Installation
