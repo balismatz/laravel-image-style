@@ -5,8 +5,8 @@
 > image modifications and will be supported until Intervention Image 3 reaches
 > end of life.
 >
-> Version 2.x is recommended for new projects. If you use 1.x, consider
-> upgrading to 2.x when possible; see the [upgrade guide](https://github.com/balismatz/laravel-image-style/tree/2.x#upgrade-guide).
+> Version 2.x is recommended for all new projects. Upgrade from 1.x when your
+> application meets the newer requirements. See the [upgrade guide](https://github.com/balismatz/laravel-image-style#upgrade-guide).
 
 A Laravel package for managing application image styles in a simple and
 organized way. Each image style is implemented as a dedicated PHP class that
