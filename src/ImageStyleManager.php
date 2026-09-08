@@ -21,9 +21,9 @@ class ImageStyleManager
     ) {}
 
     /**
-     * Get all image styles information.
+     * Get information about all image styles.
      *
-     * @return \Illuminate\Support\Collection<string, \BalisMatz\ImageStyle\Information\ImageStyleInformation>
+     * @return Collection<string, ImageStyleInformation>
      */
     public function all(): Collection
     {
@@ -93,7 +93,7 @@ class ImageStyleManager
     }
 
     /**
-     * Get the cache key that image styles information will be stored.
+     * Get the cache key used to store image style information.
      */
     public function getCacheKey(): string
     {

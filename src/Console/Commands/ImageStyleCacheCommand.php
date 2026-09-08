@@ -38,14 +38,16 @@ class ImageStyleCacheCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->callSilent('image-style:clear');
 
         $styles = $this->imageStyleManager->all();
 
         if (! $styles->count()) {
-            return $this->components->error("Your application doesn't have any image styles.");
+            $this->components->error('No image styles are registered.');
+
+            return;
         }
 
         Cache::store(config('image-style.cache'))->forever(

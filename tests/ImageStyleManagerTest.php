@@ -26,17 +26,17 @@ class ImageStyleManagerTest extends ImageStyleTestCase
     }
 
     /**
-     * Tests if styles can be detected.
+     * Tests whether all image styles can be detected.
      */
-    public function test_styles_detection(): void
+    public function test_all_styles_can_be_detected(): void
     {
         $this->assertEquals(9, $this->imageStyleManager->all()->count());
     }
 
     /**
-     * Tests if styles information can be cached.
+     * Tests whether image style information can be cached.
      */
-    public function test_styles_cache(): void
+    public function test_style_information_can_be_cached(): void
     {
         $uncachedStyles = $this->imageStyleManager->all();
 
@@ -53,9 +53,9 @@ class ImageStyleManagerTest extends ImageStyleTestCase
     }
 
     /**
-     * Tests if a style - without ID detection - can be assigned as "default".
+     * Tests whether an image style without a valid ID gets the ID "default".
      */
-    public function test_style_default_id(): void
+    public function test_invalid_style_id_gets_default_id(): void
     {
         $style = $this->imageStyleManager->get('default');
 
@@ -63,9 +63,9 @@ class ImageStyleManagerTest extends ImageStyleTestCase
     }
 
     /**
-     * Tests if a style can be assigned with it's custom ID.
+     * Tests whether an image style can have a custom ID.
      */
-    public function test_style_custom_id(): void
+    public function test_style_can_have_custom_id(): void
     {
         $style = $this->imageStyleManager->get('custom-image-style-id');
 
@@ -73,9 +73,9 @@ class ImageStyleManagerTest extends ImageStyleTestCase
     }
 
     /**
-     * Tests if the inactive style can not be returned (as an active one).
+     * Tests whether an inactive image style is not returned.
      */
-    public function test_inactive_style(): void
+    public function test_inactive_style_is_not_returned(): void
     {
         $style = $this->imageStyleManager->get('App\ImageStyles\InactiveImageStyle');
 
@@ -83,9 +83,9 @@ class ImageStyleManagerTest extends ImageStyleTestCase
     }
 
     /**
-     * Tests if style's help text can be detected.
+     * Tests whether an image style's help text can be detected.
      */
-    public function test_style_help_text(): void
+    public function test_style_help_text_can_be_detected(): void
     {
         $style = $this->imageStyleManager->get('thumbnail');
 
@@ -93,9 +93,10 @@ class ImageStyleManagerTest extends ImageStyleTestCase
     }
 
     /**
-     * Tests if style without "ImageStyle" suffix can be assigned with right ID.
+     * Tests whether an image style without the "ImageStyle" suffix gets the
+     * correct ID.
      */
-    public function test_style_without_suffix(): void
+    public function test_style_without_suffix_gets_correct_id(): void
     {
         $style = $this->imageStyleManager->get('user-thumbnail');
 
@@ -103,54 +104,56 @@ class ImageStyleManagerTest extends ImageStyleTestCase
     }
 
     /**
-     * Tests if a style in directory level 1 can be assigned with the right ID.
+     * Tests whether an image style at directory level 1 gets the correct ID.
      */
-    public function test_style_directory_level_1(): void
+    public function test_style_at_directory_level_1_gets_correct_id(): void
     {
-        $style = $this->imageStyleManager->get('App\ImageStyles\Posts\ThumbnailImageStyle');
+        $style = $this->imageStyleManager->get('App\ImageStyles\Post\ThumbnailImageStyle');
 
-        $this->assertEquals('posts-thumbnail', $style?->id);
+        $this->assertEquals('post-thumbnail', $style?->id);
     }
 
     /**
-     * Tests if a style in directory level 2 can be assigned with the right ID.
+     * Tests whether an image style at directory level 2 gets the correct ID.
      */
-    public function test_style_directory_level_2(): void
+    public function test_style_at_directory_level_2_gets_correct_id(): void
     {
-        $style = $this->imageStyleManager->get('App\ImageStyles\Posts\Show\ThumbnailImageStyle');
+        $style = $this->imageStyleManager->get('App\ImageStyles\Post\Show\ThumbnailImageStyle');
 
-        $this->assertEquals('posts-show-thumbnail', $style?->id);
+        $this->assertEquals('post-show-thumbnail', $style?->id);
     }
 
     /**
-     * Tests if a style in directory level 3 can be assigned with the right ID.
+     * Tests whether an image style at directory level 3 gets the correct ID.
      */
-    public function test_style_directory_level_3(): void
+    public function test_style_at_directory_level_3_gets_correct_id(): void
     {
-        $style = $this->imageStyleManager->get('App\ImageStyles\Posts\Show\Gallery\ThumbnailImageStyle');
+        $style = $this->imageStyleManager->get('App\ImageStyles\Post\Show\Gallery\ThumbnailImageStyle');
 
-        $this->assertEquals('posts-show-gallery-thumbnail', $style?->id);
+        $this->assertEquals('post-show-gallery-thumbnail', $style?->id);
     }
 
     /**
-     * Tests if style can not be detected when it's placed to unsupported directory.
+     * Tests whether an image style is not detected when it is placed in an
+     * unsupported directory.
      */
-    public function test_style_unsupported_directory_level(): void
+    public function test_style_in_unsupported_directory_level_is_not_detected(): void
     {
-        $style = $this->imageStyleManager->get('App\ImageStyles\Posts\Show\Gallery\Item\ThumbnailImageStyle');
+        $style = $this->imageStyleManager->get('App\ImageStyles\Post\Show\Gallery\Item\ThumbnailImageStyle');
 
         $this->assertEmpty($style);
     }
 
     /**
-     * Tests if a style can be skipped when there are ID conflicts.
+     * Tests whether an image style is skipped when its ID conflicts with
+     * another image style ID.
      */
-    public function test_style_conflict(): void
+    public function test_style_with_conflicting_id_is_skipped(): void
     {
-        $style = $this->imageStyleManager->get('posts-conflict');
+        $style = $this->imageStyleManager->get('post-conflict');
 
-        $this->assertNotEquals('App\ImageStyles\Posts\ConflictImageStyle', $style?->class);
+        $this->assertNotEquals('App\ImageStyles\Post\ConflictImageStyle', $style?->class);
 
-        $this->assertEquals('App\ImageStyles\PostsConflictImageStyle', $style?->class);
+        $this->assertEquals('App\ImageStyles\PostConflictImageStyle', $style?->class);
     }
 }

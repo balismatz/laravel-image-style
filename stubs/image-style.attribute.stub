@@ -4,8 +4,7 @@ namespace {{ namespace }};
 
 use BalisMatz\ImageStyle\Attributes\ImageStyle;
 use BalisMatz\ImageStyle\ImageStyleBase;
-use Intervention\Image\Interfaces\EncodedImageInterface;
-use Intervention\Image\Interfaces\ImageInterface;
+use Illuminate\Image\Image;
 
 #[ImageStyle({{ attributeParameters }})]
 class {{ class }} extends ImageStyleBase
@@ -13,7 +12,7 @@ class {{ class }} extends ImageStyleBase
     /**
      * {@inheritDoc}
      */
-    public function modifications(ImageInterface $image, array $parameters): ImageInterface|EncodedImageInterface
+    public function manipulations(Image $image, mixed $parameters): Image
     {
         return $image;
     }

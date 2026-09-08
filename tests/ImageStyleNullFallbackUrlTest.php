@@ -4,6 +4,7 @@ namespace BalisMatz\ImageStyle\Tests;
 
 use BalisMatz\ImageStyle\Information\ImageStyleImageInformation;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 
 class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
@@ -21,7 +22,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() returns an empty value for unknown style.
+     * Tests whether imageInformation() returns an empty value for an unknown
+     * style.
      */
     public function test_image_information_unknown_style(): void
     {
@@ -32,7 +34,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() returns an empty value for missing image.
+     * Tests whether imageInformation() returns an empty value for a missing
+     * image.
      */
     public function test_image_information_missing_image(): void
     {
@@ -43,8 +46,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() returns an empty value for unknown style and
-     * missing image.
+     * Tests whether imageInformation() returns an empty value for an unknown
+     * style and a missing image.
      */
     public function test_image_information_unknown_style_missing_image(): void
     {
@@ -55,9 +58,10 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() returns an empty value for invalid file.
+     * Tests whether imageInformation() returns an empty value for an invalid
+     * file.
      */
-    public function test_image_information_style_invalid_file(): void
+    public function test_image_information_invalid_file(): void
     {
         $this->assertEquals(
             null,
@@ -66,8 +70,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an empty value for
-     * unknown style.
+     * Tests whether imageInformation(), with parameters, returns an empty value
+     * for an unknown style.
      */
     public function test_image_information_unknown_style_parameters(): void
     {
@@ -78,8 +82,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an empty value for
-     * missing image.
+     * Tests whether imageInformation(), with parameters, returns an empty value
+     * for a missing image.
      */
     public function test_image_information_missing_image_parameters(): void
     {
@@ -90,8 +94,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an empty value for
-     * unknown style and missing image.
+     * Tests whether imageInformation(), with parameters, returns an empty value
+     * for an unknown style and a missing image.
      */
     public function test_image_information_unknown_style_missing_image_parameters(): void
     {
@@ -102,10 +106,10 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an empty value for
-     * invalid file.
+     * Tests whether imageInformation(), with parameters, returns an empty value
+     * for an invalid file.
      */
-    public function test_image_information_style_invalid_file_parameters(): void
+    public function test_image_information_invalid_file_parameters(): void
     {
         $this->assertEquals(
             null,
@@ -114,8 +118,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of empty values for
-     * unknown styles.
+     * Tests whether imagesInformation() returns a collection of empty values
+     * for unknown styles.
      */
     public function test_images_information_unknown_styles(): void
     {
@@ -129,8 +133,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of empty values for
-     * missing image.
+     * Tests whether imagesInformation() returns a collection of empty values
+     * for a missing image.
      */
     public function test_images_information_missing_image(): void
     {
@@ -144,8 +148,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of empty values for
-     * unknown styles and missing image.
+     * Tests whether imagesInformation() returns a collection of empty values
+     * for unknown styles and a missing image.
      */
     public function test_images_information_unknown_styles_missing_image(): void
     {
@@ -159,15 +163,15 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() creates styled images by mixed
-     * (known & unknown) styles and returns either a collection of
+     * Tests whether imagesInformation() creates styled images for mixed
+     * (known and unknown) styles and returns either a collection of
      * ImageStyleImageInformation objects or a collection of empty values.
      */
     public function test_images_information_mixed_styles_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -187,10 +191,10 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of empty values for
-     * invalid file.
+     * Tests whether imagesInformation() returns a collection of empty values
+     * for an invalid file.
      */
-    public function test_images_information_styles_invalid_file(): void
+    public function test_images_information_invalid_file(): void
     {
         $this->assertEquals(
             collect([
@@ -202,8 +206,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * empty values for unknown styles.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of empty values for unknown styles.
      */
     public function test_images_information_unknown_styles_parameters(): void
     {
@@ -220,8 +224,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * empty values for missing image.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of empty values for a missing image.
      */
     public function test_images_information_missing_image_parameters(): void
     {
@@ -238,8 +242,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * empty values for unknown styles and missing image.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of empty values for unknown styles and a missing image.
      */
     public function test_images_information_unknown_styles_missing_image_parameters(): void
     {
@@ -256,15 +260,15 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, creates styled images by
-     * mixed (known & unknown) styles and returns either a collection of
+     * Tests whether imagesInformation(), with parameters, creates styled images
+     * for mixed (known and unknown) styles and returns either a collection of
      * ImageStyleImageInformation objects or a collection of empty values.
      */
     public function test_images_information_mixed_styles_image_parameters(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -288,10 +292,10 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * empty values for invalid file.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of empty values for an invalid file.
      */
-    public function test_images_information_styles_invalid_file_parameters(): void
+    public function test_images_information_invalid_file_parameters(): void
     {
         $this->assertEquals(
             collect([
@@ -306,7 +310,7 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns empty value for unknown style.
+     * Tests whether url() returns an empty value for an unknown style.
      */
     public function test_url_unknown_style(): void
     {
@@ -317,7 +321,7 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns empty value for missing image.
+     * Tests whether url() returns an empty value for a missing image.
      */
     public function test_url_missing_image(): void
     {
@@ -328,7 +332,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns empty value for unknown style and missing image.
+     * Tests whether url() returns an empty value for an unknown style and a
+     * missing image.
      */
     public function test_url_unknown_style_missing_image(): void
     {
@@ -339,9 +344,9 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns empty value for invalid file.
+     * Tests whether url() returns an empty value for an invalid file.
      */
-    public function test_url_style_invalid_file(): void
+    public function test_url_invalid_file(): void
     {
         $this->assertEquals(
             null,
@@ -350,7 +355,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of empty values for unknown styles.
+     * Tests whether urls() returns a collection of empty values for unknown
+     * styles.
      */
     public function test_urls_unknown_styles(): void
     {
@@ -364,7 +370,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of empty values for missing image.
+     * Tests whether urls() returns a collection of empty values for a missing
+     * image.
      */
     public function test_urls_missing_image(): void
     {
@@ -378,8 +385,8 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of empty values for unknown styles
-     * and missing image.
+     * Tests whether urls() returns a collection of empty values for unknown
+     * styles and a missing image.
      */
     public function test_urls_unknown_styles_missing_image(): void
     {
@@ -393,14 +400,14 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() creates styled images by mixed (known & unknown) styles
-     * and returns either the URLs or empty values.
+     * Tests whether urls() creates styled images for mixed (known and unknown)
+     * styles and returns either the URLs or empty values.
      */
     public function test_urls_mixed_styles_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -416,9 +423,10 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of empty values for invalid file.
+     * Tests whether urls() returns a collection of empty values for an invalid
+     * file.
      */
-    public function test_urls_styles_invalid_file(): void
+    public function test_urls_invalid_file(): void
     {
         $this->assertEquals(
             collect([

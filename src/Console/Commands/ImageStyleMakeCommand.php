@@ -3,6 +3,7 @@
 namespace BalisMatz\ImageStyle\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -79,7 +80,7 @@ class ImageStyleMakeCommand extends GeneratorCommand
      * @param  string  $name
      * @return string
      *
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     protected function buildClass($name)
     {
@@ -112,10 +113,8 @@ class ImageStyleMakeCommand extends GeneratorCommand
 
     /**
      * Prompt for missing input arguments using the returned questions.
-     *
-     * @return array
      */
-    protected function promptForMissingArgumentsUsing()
+    protected function promptForMissingArgumentsUsing(): array
     {
         $prompt = parent::promptForMissingArgumentsUsing();
 
@@ -126,10 +125,8 @@ class ImageStyleMakeCommand extends GeneratorCommand
 
     /**
      * Interact further with the user if they were prompted for missing arguments.
-     *
-     * @return void
      */
-    protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output)
+    protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output): void
     {
         if ($this->isReservedName($this->getNameInput()) || $this->didReceiveOptions($input)) {
             return;
@@ -139,7 +136,7 @@ class ImageStyleMakeCommand extends GeneratorCommand
             'id' => text('ID', 'E.g. thumbnail'),
             'help-text' => text('Help text', 'E.g. Resize image to 100px'),
             'active' => select('Status', [
-                null => 'Default',
+                '' => 'Default',
                 'true' => 'Active',
                 'false' => 'Disabled',
             ]),
@@ -150,14 +147,12 @@ class ImageStyleMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['id', null, InputOption::VALUE_OPTIONAL, 'Set a custom ID'],
-            ['help-text', null, InputOption::VALUE_OPTIONAL, 'Set a help text'],
+            ['help-text', null, InputOption::VALUE_OPTIONAL, 'Set help text'],
             ['active', null, InputOption::VALUE_OPTIONAL, 'Set the status'],
         ];
     }

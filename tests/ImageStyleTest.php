@@ -3,17 +3,18 @@
 namespace BalisMatz\ImageStyle\Tests;
 
 use BalisMatz\ImageStyle\Information\ImageStyleImageInformation;
-use Illuminate\Http\Response;
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Image\ImageException;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Tests are focused in path() and paths() as the other methods mainly rely on
+ * Tests are focused on path() and paths(), as the other methods mainly rely on
  * them.
  */
 class ImageStyleTest extends ImageStyleTestBase
 {
     /**
-     * Tests if path() returns null for unknown style.
+     * Tests whether path() returns null for an unknown style.
      */
     public function test_path_unknown_style(): void
     {
@@ -23,7 +24,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() returns null for missing image.
+     * Tests whether path() returns null for a missing image.
      */
     public function test_path_missing_image(): void
     {
@@ -33,7 +34,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() returns null for unknown style and missing image.
+     * Tests whether path() returns null for an unknown style and a missing
+     * image.
      */
     public function test_path_unknown_style_missing_image(): void
     {
@@ -43,7 +45,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() creates a styled image and returns the path.
+     * Tests whether path() creates a styled image and returns the path.
      */
     public function test_path_style_image(): void
     {
@@ -56,7 +58,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() creates a styled image and returns the relative path.
+     * Tests whether path() creates a styled image and returns the relative
+     * path.
      */
     public function test_path_style_image_relative(): void
     {
@@ -69,8 +72,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() creates a styled image from another disk and returns the
-     * path.
+     * Tests whether path() creates a styled image from another disk and returns
+     * the path.
      */
     public function test_path_style_image_disk(): void
     {
@@ -83,8 +86,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() creates a styled image to the same disk and returns the
-     * path.
+     * Tests whether path() creates a styled image on the same disk and returns
+     * the path.
      */
     public function test_path_style_image_same_disk(): void
     {
@@ -97,8 +100,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() creates a styled image with custom name and returns the
-     * path.
+     * Tests whether path() creates a styled image with a custom name and
+     * returns the path.
      */
     public function test_path_style_image_filename(): void
     {
@@ -113,12 +116,12 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() creates a styled image with same visibility and returns
-     * the path.
+     * Tests whether path() creates a styled image with the same visibility and
+     * returns the path.
      */
     public function test_path_style_image_visibility(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -130,12 +133,12 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() creates a styled image with same visibility (private)
-     * and returns the path.
+     * Tests whether path() creates a styled image with the same visibility
+     * (private) and returns the path.
      */
     public function test_path_style_image_visibility_private(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -147,7 +150,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() returns null for invalid file.
+     * Tests whether path() returns null for an invalid file.
      */
     public function test_path_style_invalid_file(): void
     {
@@ -159,7 +162,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if path() returns the first path of multiple given styles.
+     * Tests whether path() returns the first path of multiple given styles.
      */
     public function test_path_styles_image_first(): void
     {
@@ -172,160 +175,174 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if pathToJpeg() creates a styled image in JPEG format and returns
-     * the path.
-     */
-    public function test_path_to_jpeg_style_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            'image/jpeg',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToJpeg('default', $this->filePaths['local-image-png'], relative: true)
-            )
-        );
-    }
-
-    /**
-     * Tests if pathToWebp() creates a styled image in WebP graphic format and
-     * returns the path.
+     * Tests whether path() with format "webp" creates a styled image in WebP
+     * graphic format and returns the path.
      */
     public function test_path_to_webp_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
             'image/webp',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToWebp('default', $this->filePaths['local-image'], relative: true)
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'webp', relative: true)
             )
         );
     }
 
     /**
-     * Tests if pathToPng() creates a styled image in PNG format and returns the
-     * path.
+     * Tests whether path() with format "jpg" creates a styled image in JPEG
+     * format and returns the path.
+     */
+    public function test_path_to_jpg_style_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            'image/jpeg',
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image-png'], format: 'jpg', relative: true)
+            )
+        );
+    }
+
+    /**
+     * Tests whether path() with format "jpeg" creates a styled image in JPEG
+     * format and returns the path.
+     */
+    public function test_path_to_jpeg_style_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            'image/jpeg',
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'jpeg', relative: true)
+            )
+        );
+    }
+
+    /**
+     * Tests whether path() with format "png" creates a styled image in PNG
+     * format and returns the path.
      */
     public function test_path_to_png_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
             'image/png',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToPng('default', $this->filePaths['local-image'], relative: true)
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'png', relative: true)
             )
         );
     }
 
     /**
-     * Tests if pathToGif() creates a styled image in GIF format and returns the
-     * path.
+     * Tests whether path() with format "gif" creates a styled image in GIF
+     * format and returns the path.
      */
     public function test_path_to_gif_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
             'image/gif',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToGif('default', $this->filePaths['local-image'], relative: true)
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'gif', relative: true)
             )
         );
     }
 
     /**
-     * Tests if pathToBmp() creates a styled image in Windows Bitmap format and
-     * returns the path.
-     */
-    public function test_path_to_bmp_style_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            'image/bmp',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToBmp('default', $this->filePaths['local-image'], relative: true)
-            )
-        );
-    }
-
-    /**
-     * Tests if pathToAvif() creates a styled image in AVIF format and returns
-     * the path.
+     * Tests whether path() with format "avif" creates a styled image in AVIF
+     * format and returns the path.
      */
     public function test_path_to_avif_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
             'image/avif',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToAvif('default', $this->filePaths['local-image'], relative: true)
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'avif', relative: true)
             )
         );
     }
 
     /**
-     * Tests if pathToTiff() creates a styled image in TIFF format and returns
-     * the path.
-     */
-    public function test_path_to_tiff_style_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            'image/tiff',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToTiff('default', $this->filePaths['local-image'], relative: true)
-            )
-        );
-    }
-
-    /**
-     * Tests if pathToJpeg2000() creates a styled image in JPEG 2000 format and
-     * returns the path.
-     */
-    public function test_path_to_jpeg_2000_style_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            'image/jp2',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToJpeg2000('default', $this->filePaths['local-image'], relative: true)
-            )
-        );
-    }
-
-    /**
-     * Tests if pathToHeic() creates a styled image in HEIC format and returns
-     * the path.
+     * Tests whether path() with format "heic" creates a styled image in HEIC
+     * format and returns the path.
      */
     public function test_path_to_heic_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
             'image/heic',
-            $styleFilesystem->mimetype(
-                $this->imageStyle->pathToHeic('default', $this->filePaths['local-image'], relative: true)
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'heic', relative: true)
             )
         );
     }
 
     /**
-     * Tests if paths() returns a collection of null values for unknown styles.
+     * Tests whether path() with format "heif" creates a styled image in HEIC
+     * format and returns the path.
+     */
+    public function test_path_to_heif_style_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            'image/heic',
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'heic', relative: true)
+            )
+        );
+    }
+
+    /**
+     * Tests whether path() with format "bmp" creates a styled image in Windows
+     * Bitmap format and returns the path.
+     */
+    public function test_path_to_bmp_style_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            'image/bmp',
+            $styleFilesystem->mimeType(
+                $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'bmp', relative: true)
+            )
+        );
+    }
+
+    /**
+     * Tests whether path() with format "tiff" throws an invalid format
+     * exception.
+     */
+    public function test_path_to_tiff_style_image(): void
+    {
+        $this->expectException(ImageException::class);
+
+        $this->expectExceptionMessageIsOrContains('The [tiff] format is not supported.');
+
+        $this->imageStyle->path('default', $this->filePaths['local-image'], format: 'tiff', relative: true);
+    }
+
+    /**
+     * Tests whether paths() returns a collection of null values for unknown
+     * styles.
      */
     public function test_paths_unknown_styles(): void
     {
@@ -336,7 +353,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() returns a collection of null values for missing image.
+     * Tests whether paths() returns a collection of null values for a missing
+     * image.
      */
     public function test_paths_missing_image(): void
     {
@@ -347,8 +365,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() returns a collection of null values for unknown styles
-     * and missing image.
+     * Tests whether paths() returns a collection of null values for unknown
+     * styles and a missing image.
      */
     public function test_paths_unknown_styles_missing_image(): void
     {
@@ -359,7 +377,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images and returns the paths.
+     * Tests whether paths() creates styled images and returns the paths.
      */
     public function test_paths_styles_image(): void
     {
@@ -377,7 +395,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images and returns the relative paths.
+     * Tests whether paths() creates styled images and returns the relative
+     * paths.
      */
     public function test_paths_styles_image_relative(): void
     {
@@ -393,8 +412,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images by styles string and returns the
-     * paths.
+     * Tests whether paths() creates styled images by styles string and returns
+     * the paths.
      */
     public function test_paths_string_styles_image(): void
     {
@@ -412,8 +431,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images by styles string and returns the
-     * relative paths.
+     * Tests whether paths() creates styled images by styles string and returns
+     * the relative paths.
      */
     public function test_paths_string_styles_image_relative(): void
     {
@@ -429,8 +448,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images by mixed (known & unknown) styles
-     * and returns the paths.
+     * Tests whether paths() creates styled images from mixed (known and
+     * unknown) styles and returns the paths.
      */
     public function test_paths_mixed_styles_image(): void
     {
@@ -449,8 +468,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images by mixed styles (known & unknown)
-     * and returns the relative paths.
+     * Tests whether paths() creates styled images from mixed styles (known and
+     * unknown) and returns the relative paths.
      */
     public function test_paths_mixed_styles_image_relative(): void
     {
@@ -467,8 +486,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images from another disk and returns the
-     * paths.
+     * Tests whether paths() creates styled images from another disk and returns
+     * the paths.
      */
     public function test_paths_styles_image_disk(): void
     {
@@ -486,8 +505,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images to the same disk and returns the
-     * paths.
+     * Tests whether paths() creates styled images on the same disk and returns
+     * the paths.
      */
     public function test_paths_styles_image_same_disk(): void
     {
@@ -505,8 +524,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images with custom name and returns the
-     * paths.
+     * Tests whether paths() creates styled images with a custom name and
+     * returns the paths.
      */
     public function test_paths_styles_image_filename(): void
     {
@@ -526,12 +545,12 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images with same visibility and returns
-     * the paths.
+     * Tests whether paths() creates styled images with the same visibility and
+     * returns the paths.
      */
     public function test_paths_styles_image_visibility(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -545,12 +564,12 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() creates styled images with same visibility (private)
-     * and returns the paths.
+     * Tests whether paths() creates styled images with the same visibility
+     * (private) and returns the paths.
      */
     public function test_paths_styles_image_visibility_private(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -564,7 +583,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if paths() returns a collection of null values for invalid file.
+     * Tests whether paths() returns a collection of null values for an invalid
+     * file.
      */
     public function test_paths_styles_invalid_file(): void
     {
@@ -580,31 +600,12 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if pathsToJpeg() creates styled images in JPEG format and returns
-     * the paths.
-     */
-    public function test_paths_to_jpeg_styles_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            collect([
-                'default' => 'image/jpeg',
-                'thumbnail' => 'image/jpeg',
-            ]),
-            $this->imageStyle->pathsToJpeg(['default', 'thumbnail'], $this->filePaths['local-image-png'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
-        );
-    }
-
-    /**
-     * Tests if pathsToWebp() creates styled images in WebP graphic format and
-     * returns the paths.
+     * Tests whether paths() with format "webp" creates styled images in WebP
+     * graphic format and returns the paths.
      */
     public function test_paths_to_webp_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -612,18 +613,56 @@ class ImageStyleTest extends ImageStyleTestBase
                 'default' => 'image/webp',
                 'thumbnail' => 'image/webp',
             ]),
-            $this->imageStyle->pathsToWebp(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'webp', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
         );
     }
 
     /**
-     * Tests if pathsToPng() creates styled images in PNG format and returns the
-     * paths.
+     * Tests whether paths() with format "jpg" creates styled images in JPEG
+     * format and returns the paths.
+     */
+    public function test_paths_to_jpg_styles_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            collect([
+                'default' => 'image/jpeg',
+                'thumbnail' => 'image/jpeg',
+            ]),
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image-png'], format: 'jpg', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
+        );
+    }
+
+    /**
+     * Tests whether paths() with format "jpeg" creates styled images in JPEG
+     * format and returns the paths.
+     */
+    public function test_paths_to_jpeg_styles_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            collect([
+                'default' => 'image/jpeg',
+                'thumbnail' => 'image/jpeg',
+            ]),
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'jpeg', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
+        );
+    }
+
+    /**
+     * Tests whether paths() with format "png" creates styled images in PNG
+     * format and returns the paths.
      */
     public function test_paths_to_png_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -631,18 +670,18 @@ class ImageStyleTest extends ImageStyleTestBase
                 'default' => 'image/png',
                 'thumbnail' => 'image/png',
             ]),
-            $this->imageStyle->pathsToPng(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'png', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
         );
     }
 
     /**
-     * Tests if pathsToGif() creates styled images in GIF format and returns the
-     * paths.
+     * Tests whether paths() with format "gif" creates styled images in GIF
+     * format and returns the paths.
      */
     public function test_paths_to_gif_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -650,37 +689,18 @@ class ImageStyleTest extends ImageStyleTestBase
                 'default' => 'image/gif',
                 'thumbnail' => 'image/gif',
             ]),
-            $this->imageStyle->pathsToGif(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'gif', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
         );
     }
 
     /**
-     * Tests if pathsToBmp() creates styled images in Windows Bitmap format and
-     * returns the paths.
-     */
-    public function test_paths_to_bmp_styles_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            collect([
-                'default' => 'image/bmp',
-                'thumbnail' => 'image/bmp',
-            ]),
-            $this->imageStyle->pathsToBmp(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
-        );
-    }
-
-    /**
-     * Tests if pathsToAvif() creates styled images in AVIF format and returns
-     * the paths.
+     * Tests whether paths() with format "avif" creates styled images in AVIF
+     * format and returns the paths.
      */
     public function test_paths_to_avif_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -688,56 +708,18 @@ class ImageStyleTest extends ImageStyleTestBase
                 'default' => 'image/avif',
                 'thumbnail' => 'image/avif',
             ]),
-            $this->imageStyle->pathsToAvif(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'avif', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
         );
     }
 
     /**
-     * Tests if pathsToTiff() creates styled images in TIFF format and returns
-     * the paths.
-     */
-    public function test_paths_to_tiff_styles_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            collect([
-                'default' => 'image/tiff',
-                'thumbnail' => 'image/tiff',
-            ]),
-            $this->imageStyle->pathsToTiff(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
-        );
-    }
-
-    /**
-     * Tests if pathsToJpeg2000() creates styled images in JPEG 2000 format and
-     * returns the paths.
-     */
-    public function test_paths_to_jpeg_2000_styles_image(): void
-    {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
-        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
-
-        $this->assertEquals(
-            collect([
-                'default' => 'image/jp2',
-                'thumbnail' => 'image/jp2',
-            ]),
-            $this->imageStyle->pathsToJpeg2000(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
-        );
-    }
-
-    /**
-     * Tests if pathsToHeic() creates styled images in HEIC format and returns
-     * the paths.
+     * Tests whether paths() with format "heic" creates styled images in HEIC
+     * format and returns the paths.
      */
     public function test_paths_to_heic_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -745,14 +727,65 @@ class ImageStyleTest extends ImageStyleTestBase
                 'default' => 'image/heic',
                 'thumbnail' => 'image/heic',
             ]),
-            $this->imageStyle->pathsToHeic(['default', 'thumbnail'], $this->filePaths['local-image'], relative: true)
-                ->map(fn (string $path): string => $styleFilesystem->mimetype($path))
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'heic', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
         );
     }
 
     /**
-     * Tests if imageInformation() returns an ImageStyleImageInformation object
-     * - containing the original image information - for unknown style.
+     * Tests whether paths() with format "heif" creates styled images in HEIC
+     * format and returns the paths.
+     */
+    public function test_paths_to_heif_styles_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            collect([
+                'default' => 'image/heic',
+                'thumbnail' => 'image/heic',
+            ]),
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'heif', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
+        );
+    }
+
+    /**
+     * Tests whether paths() with format "bmp" creates styled images in Windows
+     * Bitmap format and returns the paths.
+     */
+    public function test_paths_to_bmp_styles_image(): void
+    {
+        /** @var FilesystemAdapter $styleFilesystem */
+        $styleFilesystem = Storage::disk(config('image-style.filesystem'));
+
+        $this->assertEquals(
+            collect([
+                'default' => 'image/bmp',
+                'thumbnail' => 'image/bmp',
+            ]),
+            $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'bmp', relative: true)
+                ->map(fn (string $path): string => $styleFilesystem->mimeType($path))
+        );
+    }
+
+    /**
+     * Tests whether paths() with format "tiff" throws an invalid format
+     * exception.
+     */
+    public function test_paths_to_tiff_styles_image(): void
+    {
+        $this->expectException(ImageException::class);
+
+        $this->expectExceptionMessageIsOrContains('The [tiff] format is not supported.');
+
+        $this->imageStyle->paths(['default', 'thumbnail'], $this->filePaths['local-image'], format: 'tiff', relative: true);
+    }
+
+    /**
+     * Tests whether imageInformation() returns an ImageStyleImageInformation
+     * object containing the original image information for an unknown style.
      */
     public function test_image_information_unknown_style(): void
     {
@@ -763,8 +796,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() returns an ImageStyleImageInformation object
-     * - containing the Storage::url() without any other information - for
+     * Tests whether imageInformation() returns an ImageStyleImageInformation
+     * object containing the Storage::url() without any other information for a
      * missing image.
      */
     public function test_image_information_missing_image(): void
@@ -776,9 +809,9 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() returns an ImageStyleImageInformation object
-     * - containing the Storage::url() without any other information - for
-     * unknown style and missing image.
+     * Tests whether imageInformation() returns an ImageStyleImageInformation
+     * object containing the Storage::url() without any other information for an
+     * unknown style and a missing image.
      */
     public function test_image_information_unknown_style_missing_image(): void
     {
@@ -789,7 +822,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() creates a styled image and returns an
+     * Tests whether imageInformation() creates a styled image and returns an
      * ImageStyleImageInformation object, containing the styled image
      * information.
      */
@@ -797,7 +830,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -809,15 +842,15 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation() returns an ImageStyleImageInformation object
-     * - containing the Storage::url() without any other information - for
+     * Tests whether imageInformation() returns an ImageStyleImageInformation
+     * object containing the Storage::url() without any other information for an
      * invalid file.
      */
     public function test_image_information_style_invalid_file(): void
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -827,22 +860,22 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an
-     * ImageStyleImageInformation object - containing the original image
-     * information and the given parameters - for unknown style.
+     * Tests whether imageInformation(), with parameters, returns an
+     * ImageStyleImageInformation object containing the original image
+     * information and the given parameters for an unknown style.
      */
     public function test_image_information_unknown_style_parameters(): void
     {
         $this->assertEquals(
-            new ImageStyleImageInformation('/storage/images/image.jpg', 5, 5, 'image/jpeg', 'parameters'),
+            new ImageStyleImageInformation('/storage/images/image.jpg', 5, 5, 'image/jpeg', null, 'parameters'),
             $this->imageStyle->imageInformation('unknown', $this->filePaths['local-image'], informationParameters: 'parameters')
         );
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an
-     * ImageStyleImageInformation object - containing the Storage::url() and the
-     * given parameters without any other information - for missing image.
+     * Tests whether imageInformation(), with parameters, returns an
+     * ImageStyleImageInformation object containing the Storage::url() and the
+     * given parameters without any other information for a missing image.
      */
     public function test_image_information_missing_image_parameters(): void
     {
@@ -853,9 +886,9 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an
-     * ImageStyleImageInformation object - containing the Storage::url() and the
-     * given parameters without any other information - for unknown style and
+     * Tests whether imageInformation(), with parameters, returns an
+     * ImageStyleImageInformation object containing the Storage::url() and the
+     * given parameters without any other information for an unknown style and a
      * missing image.
      */
     public function test_image_information_unknown_style_missing_image_parameters(): void
@@ -867,35 +900,35 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imageInformation(), with parameters, creates a styled image and
-     * returns an ImageStyleImageInformation object, containing the styled image
-     * information and the given parameters.
+     * Tests whether imageInformation(), with parameters, creates a styled image
+     * and returns an ImageStyleImageInformation object, containing the styled
+     * image information and the given parameters.
      */
     public function test_image_information_style_image_parameters(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
             new ImageStyleImageInformation(
-                $styleFilesystem->url('').'styles/default/'.$path, 5, 5, 'image/jpeg', 'parameters'
+                $styleFilesystem->url('').'styles/default/'.$path, 5, 5, 'image/jpeg', null, 'parameters'
             ),
             $this->imageStyle->imageInformation('default', $path, informationParameters: 'parameters')
         );
     }
 
     /**
-     * Tests if imageInformation(), with parameters, returns an
-     * ImageStyleImageInformation object - containing the Storage::url() and the
-     * given parameters without any other information - for invalid file.
+     * Tests whether imageInformation(), with parameters, returns an
+     * ImageStyleImageInformation object containing the Storage::url() and the
+     * given parameters without any other information for an invalid file.
      */
     public function test_image_information_style_invalid_file_parameters(): void
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -905,9 +938,9 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of
-     * ImageStyleImageInformation objects - containing the original image
-     * information - for unknown styles.
+     * Tests whether imagesInformation() returns a collection of
+     * ImageStyleImageInformation objects containing the original image
+     * information for unknown styles.
      */
     public function test_images_information_unknown_styles(): void
     {
@@ -921,9 +954,9 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of
-     * ImageStyleImageInformation objects - containing the Storage::url()
-     * without any other information - for missing image.
+     * Tests whether imagesInformation() returns a collection of
+     * ImageStyleImageInformation objects containing the Storage::url()
+     * without any other information for a missing image.
      */
     public function test_images_information_missing_image(): void
     {
@@ -937,9 +970,9 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of
-     * ImageStyleImageInformation objects - containing the Storage::url()
-     * without any other information - for unknown styles and missing image.
+     * Tests whether imagesInformation() returns a collection of
+     * ImageStyleImageInformation objects containing the Storage::url()
+     * without any other information for unknown styles and a missing image.
      */
     public function test_images_information_unknown_styles_missing_image(): void
     {
@@ -953,7 +986,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() creates styled images and returns a
+     * Tests whether imagesInformation() creates styled images and returns a
      * collection of ImageStyleImageInformation objects, containing the styled
      * images information.
      */
@@ -961,7 +994,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -980,15 +1013,15 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() creates styled images by styles string and
-     * returns a collection of ImageStyleImageInformation objects, containing
-     * the styled images information.
+     * Tests whether imagesInformation() creates styled images by styles string
+     * and returns a collection of ImageStyleImageInformation objects,
+     * containing the styled images information.
      */
     public function test_images_information_string_styles_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1007,21 +1040,21 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() creates styled images by mixed
-     * (known & unknown) styles and returns a collection of
-     * ImageStyleImageInformation objects, containing the styled images
+     * Tests whether imagesInformation() creates styled images from mixed
+     * (known and unknown) styles and returns a collection of
+     * ImageStyleImageInformation objects containing the styled images
      * information.
      */
     public function test_images_information_mixed_styles_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1041,15 +1074,15 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() returns a collection of
-     * ImageStyleImageInformation objects - containing the Storage::url()
-     * without any other information - for invalid file.
+     * Tests whether imagesInformation() returns a collection of
+     * ImageStyleImageInformation objects containing the Storage::url()
+     * without any other information for an invalid file.
      */
     public function test_images_information_styles_invalid_file(): void
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $stylePath = $localFilesystem->url($path);
@@ -1064,16 +1097,16 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * ImageStyleImageInformation objects - containing the original image
-     * information and the given parameters - for unknown styles.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of ImageStyleImageInformation objects containing the original image
+     * information and the given parameters for unknown styles.
      */
     public function test_images_information_unknown_styles_parameters(): void
     {
         $this->assertEquals(
             collect([
-                'unknown' => new ImageStyleImageInformation('/storage/images/image.jpg', 5, 5, 'image/jpeg', 'unknown-parameters'),
-                'unknown-2' => new ImageStyleImageInformation('/storage/images/image.jpg', 5, 5, 'image/jpeg', 'unknown-2-parameters'),
+                'unknown' => new ImageStyleImageInformation('/storage/images/image.jpg', 5, 5, 'image/jpeg', null, 'unknown-parameters'),
+                'unknown-2' => new ImageStyleImageInformation('/storage/images/image.jpg', 5, 5, 'image/jpeg', null, 'unknown-2-parameters'),
             ]),
             $this->imageStyle->imagesInformation(['unknown', 'unknown-2'], $this->filePaths['local-image'], informationParameters: [
                 'unknown' => 'unknown-parameters',
@@ -1083,9 +1116,9 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * ImageStyleImageInformation objects - containing the Storage::url() and
-     * the given parameters without any other information - for missing image.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of ImageStyleImageInformation objects containing the Storage::url() and
+     * the given parameters without any other information for a missing image.
      */
     public function test_images_information_missing_image_parameters(): void
     {
@@ -1102,10 +1135,10 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * ImageStyleImageInformation objects - containing the Storage::url() and
-     * the given parameters without any other information - for unknown styles
-     * and missing image.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of ImageStyleImageInformation objects containing the Storage::url() and
+     * the given parameters without any other information for unknown styles and
+     * a missing image.
      */
     public function test_images_information_unknown_styles_missing_image_parameters(): void
     {
@@ -1122,15 +1155,15 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, creates styled images and
-     * returns a collection of ImageStyleImageInformation objects, containing
-     * the styled images information and the given parameters.
+     * Tests whether imagesInformation(), with parameters, creates styled images
+     * and returns a collection of ImageStyleImageInformation objects,
+     * containing the styled images information and the given parameters.
      */
     public function test_images_information_styles_image_parameters(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1152,16 +1185,16 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation() with numeric key parameters creates styled
-     * images and returns a collection of ImageStyleImageInformation
-     * objects, containing the styled images information and the given
+     * Tests whether imagesInformation() with numeric-key parameters creates
+     * styled images and returns a collection of ImageStyleImageInformation
+     * objects containing the styled images information and the given
      * parameters.
      */
     public function test_images_information_styles_image_numeric_key_parameters(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1182,8 +1215,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, creates styled images by
-     * styles string and returns a collection of ImageStyleImageInformation
+     * Tests whether imagesInformation(), with parameters, creates styled images
+     * by styles string and returns a collection of ImageStyleImageInformation
      * objects, containing the styled images information and the given
      * parameters.
      */
@@ -1191,7 +1224,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1213,21 +1246,21 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, creates styled images by
-     * mixed (known & unknown) styles and returns a collection of
-     * ImageStyleImageInformation objects, containing the styled images
+     * Tests whether imagesInformation(), with parameters, creates styled images
+     * from mixed (known and unknown) styles and returns a collection of
+     * ImageStyleImageInformation objects containing the styled images
      * information and the given parameters.
      */
     public function test_images_information_mixed_styles_image_parameters(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1251,15 +1284,15 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if imagesInformation(), with parameters, returns a collection of
-     * ImageStyleImageInformation objects - containing the Storage::url() and
-     * the given parameters without any other information - for invalid file.
+     * Tests whether imagesInformation(), with parameters, returns a collection
+     * of ImageStyleImageInformation objects containing the Storage::url() and
+     * the given parameters without any other information for an invalid file.
      */
     public function test_images_information_styles_invalid_file_parameters(): void
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $stylePath = $localFilesystem->url($path);
@@ -1277,7 +1310,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns Storage::url() for unknown style.
+     * Tests whether url() returns Storage::url() for an unknown style.
      */
     public function test_url_unknown_style(): void
     {
@@ -1288,7 +1321,7 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns Storage::url() for missing image.
+     * Tests whether url() returns Storage::url() for a missing image.
      */
     public function test_url_missing_image(): void
     {
@@ -1299,8 +1332,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns Storage::url() for unknown style and missing
-     * image.
+     * Tests whether url() returns Storage::url() for an unknown style and a
+     * missing image.
      */
     public function test_url_unknown_style_missing_image(): void
     {
@@ -1311,13 +1344,13 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() creates a styled image and returns the URL.
+     * Tests whether url() creates a styled image and returns the URL.
      */
     public function test_url_style_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -1327,13 +1360,13 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if url() returns Storage::url() for invalid file.
+     * Tests whether url() returns Storage::url() for an invalid file.
      */
     public function test_url_style_invalid_file(): void
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1343,8 +1376,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of Storage::url() values for unknown
-     * styles.
+     * Tests whether urls() returns a collection of Storage::url() values for
+     * unknown styles.
      */
     public function test_urls_unknown_styles(): void
     {
@@ -1358,8 +1391,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of Storage::url() values for missing
-     * image.
+     * Tests whether urls() returns a collection of Storage::url() values for a
+     * missing image.
      */
     public function test_urls_missing_image(): void
     {
@@ -1373,8 +1406,8 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of Storage::url() values for unknown
-     * styles and missing image.
+     * Tests whether urls() returns a collection of Storage::url() values for
+     * unknown styles and a missing image.
      */
     public function test_urls_unknown_styles_missing_image(): void
     {
@@ -1388,13 +1421,13 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() creates styled images and returns the URLs.
+     * Tests whether urls() creates styled images and returns the URLs.
      */
     public function test_urls_styles_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1409,14 +1442,14 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() creates styled images by styles string and returns the
-     * URLs.
+     * Tests whether urls() creates styled images by styles string and returns
+     * the URLs.
      */
     public function test_urls_string_styles_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1431,19 +1464,19 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() creates styled images by mixed (known & unknown) styles
-     * and returns the URLs.
+     * Tests whether urls() creates styled images from mixed (known and unknown)
+     * styles and returns the URLs.
      */
     public function test_urls_mixed_styles_image(): void
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1457,14 +1490,14 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if urls() returns a collection of Storage::url() values for invalid
-     * file.
+     * Tests whether urls() returns a collection of Storage::url() values for an
+     * invalid file.
      */
     public function test_urls_styles_invalid_file(): void
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $stylePath = $localFilesystem->url($path);
@@ -1479,59 +1512,58 @@ class ImageStyleTest extends ImageStyleTestBase
     }
 
     /**
-     * Tests if preview() throws an \InvalidArgumentException for unknown style.
+     * Tests whether preview() throws an \InvalidArgumentException for an
+     * unknown style.
      */
     public function test_preview_unknown_style(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->expectExceptionMessage('The given image style does not exist.');
+        $this->expectExceptionMessageIsOrContains('The image style does not exist.');
 
         $this->imageStyle->preview('unknown');
     }
 
     /**
-     * Tests if preview() returns a default image (preview.jpg) response for
-     * missing image.
+     * Tests whether preview() returns a default image (preview.jpg) response
+     * for missing image.
      */
     public function test_preview_missing_image(): void
     {
         $response = $this->imageStyle->preview('default', 'missing-image.jpg');
 
         $this->assertTrue(
-            $response instanceof Response &&
             $response->headers->get('Content-Disposition') === 'inline; filename="preview.jpg"'
         );
     }
 
     /**
-     * Tests if preview() throws an \InvalidArgumentException for unknown style
-     * and missing image.
+     * Tests whether preview() throws an \InvalidArgumentException for an
+     * unknown style and a missing image.
      */
     public function test_preview_unknown_style_missing_image(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->expectExceptionMessage('The given image style does not exist.');
+        $this->expectExceptionMessageIsOrContains('The image style does not exist.');
 
         $this->imageStyle->preview('unknown', 'missing-image.jpg');
     }
 
     /**
-     * Tests if preview() returns a default image (preview.jpg) response.
+     * Tests whether preview() returns a default image (preview.jpg) response.
      */
     public function test_preview_style(): void
     {
         $response = $this->imageStyle->preview('default');
 
         $this->assertTrue(
-            $response instanceof Response &&
             $response->headers->get('Content-Disposition') === 'inline; filename="preview.jpg"'
         );
     }
 
     /**
-     * Tests if preview() returns a response for the given image.
+     * Tests whether preview() returns a response for the given image.
      */
     public function test_preview_style_image(): void
     {
@@ -1540,14 +1572,13 @@ class ImageStyleTest extends ImageStyleTestBase
         $response = $this->imageStyle->preview('default', $path);
 
         $this->assertTrue(
-            $response instanceof Response &&
             $response->headers->get('Content-Disposition') === 'inline; filename="'.basename($path).'"'
         );
     }
 
     /**
-     * Tests if preview() returns a response for the given image at specific
-     * disk.
+     * Tests whether preview() returns a response for the given image on a
+     * specific disk.
      */
     public function test_preview_style_image_disk(): void
     {
@@ -1556,21 +1587,19 @@ class ImageStyleTest extends ImageStyleTestBase
         $response = $this->imageStyle->preview('default', $path, disk: 'public');
 
         $this->assertTrue(
-            $response instanceof Response &&
             $response->headers->get('Content-Disposition') === 'inline; filename="'.basename($path).'"'
         );
     }
 
     /**
-     * Tests if preview() returns a default image (preview.jpg) response for
-     * invalid file.
+     * Tests whether preview() returns a default image (preview.jpg) response
+     * for an invalid file.
      */
     public function test_preview_style_invalid_file(): void
     {
         $response = $this->imageStyle->preview('default', $this->filePaths['local-document']);
 
         $this->assertTrue(
-            $response instanceof Response &&
             $response->headers->get('Content-Disposition') === 'inline; filename="preview.jpg"'
         );
     }

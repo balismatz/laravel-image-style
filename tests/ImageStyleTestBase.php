@@ -6,7 +6,6 @@ use BalisMatz\ImageStyle\ImageStyle;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Drivers\Imagick\Driver;
 
 abstract class ImageStyleTestBase extends ImageStyleTestCase
 {
@@ -73,16 +72,7 @@ abstract class ImageStyleTestBase extends ImageStyleTestCase
     protected function defineEnvironment($app)
     {
         tap($app['config'], function (Repository $config) {
-            $config->set('image-style.driver', Driver::class);
-
-            $config->set('image-style.options', [
-                'autoOrientation' => true,
-                'decodeAnimation' => true,
-                'blendingColor' => 'ffffff',
-                'quality' => 75,
-            ]);
-
-            $config->set('image-style.fallback_url', 'storage_url');
+            $config->set('images.default', 'imagick');
 
             $config->set('image-style.filesystem', 'public');
 

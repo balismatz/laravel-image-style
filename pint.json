@@ -1,6 +1,3 @@
 {
-    "preset": "laravel",
-    "notPath": [
-        "src/Information/ImageStyleImageInformation.php"
-    ]
+    "preset": "laravel"
 }

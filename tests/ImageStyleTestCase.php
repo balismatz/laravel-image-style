@@ -28,17 +28,17 @@ abstract class ImageStyleTestCase extends TestCase
 
             $this->artisan('make:image-style UserThumbnail')->run();
 
-            $this->artisan('make:image-style Posts/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Post/ThumbnailImageStyle')->run();
 
-            $this->artisan('make:image-style Posts/Show/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Post/Show/ThumbnailImageStyle')->run();
 
-            $this->artisan('make:image-style Posts/Show/Gallery/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Post/Show/Gallery/ThumbnailImageStyle')->run();
 
-            $this->artisan('make:image-style Posts/Show/Gallery/Item/ThumbnailImageStyle')->run();
+            $this->artisan('make:image-style Post/Show/Gallery/Item/ThumbnailImageStyle')->run();
 
-            $this->artisan('make:image-style Posts/ConflictImageStyle')->run();
+            $this->artisan('make:image-style Post/ConflictImageStyle')->run();
 
-            $this->artisan('make:image-style PostsConflictImageStyle')->run();
+            $this->artisan('make:image-style PostConflictImageStyle')->run();
         });
 
         $this->beforeApplicationDestroyed(function () {

@@ -1,64 +1,31 @@
 <?php
 
+use Illuminate\Image\ImageOutputOptions;
+
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Image Style Driver
+    | Image Style Output Quality
     |--------------------------------------------------------------------------
     |
-    | Image styles use the Intervention Image (intervention/image) package to
-    | modify images (resize, change brightness / contrast etc.).
-    |
-    | Intervention Image supports “GD Library” and “Imagick” to process images
-    | internally. Depending on your PHP setup, you can choose one of them.
-    |
-    | Included options:
-    |   - \Intervention\Image\Drivers\Gd\Driver::class
-    |   - \Intervention\Image\Drivers\Imagick\Driver::class
+    | Here you may specify the default output quality of styled images.
     |
     */
 
-    'driver' => \Intervention\Image\Drivers\Gd\Driver::class,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Image Style Options
-    |--------------------------------------------------------------------------
-    |
-    | These options are used, by default, when an image is modified via image
-    | style(s).
-    |
-    | - autoOrientation: Controls whether an imported image should be
-    |   automatically rotated according to any existing Exif data.
-    |
-    | - decodeAnimation: Decides whether a possibly animated image is decoded as
-    |   such or whether the animation is discarded.
-    |
-    | - blendingColor: Defines the default blending color.
-    |
-    | - quality: Defines the default image encoding quality from 0 to 100.
-    |
-    */
-
-    'options' => [
-        'autoOrientation' => true,
-        'decodeAnimation' => true,
-        'blendingColor' => 'ffffff',
-        'quality' => 75,
-    ],
+    'quality' => ImageOutputOptions::DEFAULT_QUALITY,
 
     /*
     |--------------------------------------------------------------------------
     | Image Style Fallback URL
     |--------------------------------------------------------------------------
     |
-    | Here you specify the behavior, when the requested image or style do not
-    | exist.
+    | Here you may specify the behavior when the requested image or style does
+    | not exist.
     |
     | Available options:
-    |   - storage_url: Returns the image URL from Storage::url().
-    |   - null: Returns an empty value.
+    |   - 'storage_url': Returns the original image URL from Storage::url().
+    |   - null: Returns null.
     |
     */
 
@@ -69,13 +36,11 @@ return [
     | Image Style Filesystem Disk
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the image style filesystem disk that should be used
-    | to store the styled images. The "local" disk, as well as a variety of
-    | cloud based disks are available to your application for file storage.
+    | Here you may specify the filesystem disk that should be used to store
+    | the styled images.
     |
     */
-
-    'filesystem' => env('IMAGE_STYLE_FILESYSTEM_DISK', config('filesystems.default')),
+    'filesystem' => env('IMAGE_STYLE_FILESYSTEM_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -83,10 +48,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the cache store that will be used to store the image
-    | styles information (id, class, help, active).
+    | style information (id, class, help, active).
     |
     */
 
-    'cache' => env('IMAGE_STYLE_CACHE_STORE', config('cache.default')),
+    'cache' => env('IMAGE_STYLE_CACHE_STORE', 'database'),
 
 ];

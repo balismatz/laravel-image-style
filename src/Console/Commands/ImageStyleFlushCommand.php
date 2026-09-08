@@ -28,7 +28,7 @@ class ImageStyleFlushCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $description = 'Flush all images with style';
+    protected $description = 'Flush all styled images';
 
     /**
      * Create a new image style flush command instance.
@@ -45,7 +45,7 @@ class ImageStyleFlushCommand extends Command implements PromptsForMissingInput
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $directory = match ($style = $this->argument('style')) {
             'all' => 'styles',
@@ -59,41 +59,41 @@ class ImageStyleFlushCommand extends Command implements PromptsForMissingInput
         };
 
         if (! $this->filesystemManager->disk($disk)->deleteDirectory($directory)) {
-            $this->components->error('There was an issue flushing images. Please try again.');
+            $this->components->error('Unable to flush images. Please try again.');
 
             return;
         }
 
         $this->components->info(match ($style) {
-            'all' => sprintf('All image styles at %s disk flushed successfully.', $disk),
-            default => sprintf('Image style "%s" at %s disk flushed successfully.', $style, $disk),
+            'all' => sprintf('All image styles on the "%s" disk were flushed successfully.', $disk),
+            default => sprintf('Image style "%s" on the "%s" disk was flushed successfully.', $style, $disk),
         });
     }
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['style', InputArgument::REQUIRED, 'The style ID or "all" to flush all styles'],
-            ['disk', InputArgument::REQUIRED, 'The disk that styled images exist'],
+            ['disk', InputArgument::REQUIRED, 'The disk where styled images exist'],
         ];
     }
 
     /**
      * Prompt for missing input arguments using the returned questions.
-     *
-     * @return array
      */
-    protected function promptForMissingArgumentsUsing()
+    protected function promptForMissingArgumentsUsing(): array
     {
+        /** @var array<string, mixed> $disks */
+        $disks = config('filesystems.disks');
+
         return [
             'style' => fn () => search(
-                'Search for a style ID or "all styles" to flush all styles',
+                'Search for a style ID or type "all styles" to flush all styles',
                 fn (string $value): array => $value ? $this->imageStyleManager->all()
+                    /** @phpstan-ignore argument.type */
                     ->prepend(['id' => 'all styles'], 'all')
                     ->map(fn (ImageStyleInformation|array $styleInfo): string => data_get($styleInfo, 'id'))
                     ->filter(fn (string $styleId): bool => str_contains($styleId, mb_strtolower($value)))
@@ -101,11 +101,12 @@ class ImageStyleFlushCommand extends Command implements PromptsForMissingInput
                 'E.g. all styles',
             ),
             'disk' => fn () => select(
-                'Select the disk that styled images exist',
-                collect(config('filesystems.disks'))
+                'Select the disk where styled images exist',
+                collect($disks)
                     ->map(fn (array $item, string $key): string => $key)
                     ->prepend('default: application', 'filesystems.default')
-                    ->prepend('default: image styles', 'default'),
+                    ->prepend('default: image styles', 'default')
+                    ->all(),
             ),
         ];
     }

@@ -38,7 +38,7 @@ class ImageStyleClearCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         Cache::store(config('image-style.cache'))->forget(
             $this->imageStyleManager->getCacheKey()
