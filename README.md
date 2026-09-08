@@ -1,12 +1,20 @@
-# Laravel Image Style
+# Image Style for Laravel
 
-A Laravel package designed to manage application image styles in a simple and
+> [!WARNING]
+> This is the legacy 1.x release. It uses Intervention Image 3 directly for
+> image modifications and will be supported until Intervention Image 3 reaches
+> end of life.
+>
+> Version 2.x is recommended for new projects. If you use 1.x, consider
+> upgrading to 2.x when possible; see the [upgrade guide](https://github.com/balismatz/laravel-image-style/tree/2.x#upgrade-guide).
+
+A Laravel package for managing application image styles in a simple and
 organized way. Each image style is implemented as a dedicated PHP class that
 defines the corresponding image modifications.
 
 It provides a facade and a helper function for creating and retrieving styled images.
 It also includes Artisan commands to create image styles, list all available image
-styles, cache or clear image styles information, and flush styled images when
+styles, cache or clear image style information, and flush styled images when
 needed.
 
 Image modifications are powered by the popular open source PHP image processing
@@ -23,7 +31,7 @@ is also available and provides basic functionality.
 
 ## Requirements
 
-- PHP 8.4 or higher
+- PHP 8.2 or higher
 - Laravel 12.0 or higher
 - Intervention Image 3.9 or higher
 
@@ -32,7 +40,7 @@ is also available and provides basic functionality.
 Require the package using Composer:
 
 ```shell
-composer require balismatz/laravel-image-style
+composer require 'balismatz/laravel-image-style:^1.0'
 ```
 
 Publish the [config](config/image-style.php) file by running the following
@@ -128,7 +136,7 @@ For example, the thumbnail (image style ID) of the `posts/main.jpg` image
 will be saved at `/styles/thumbnail/posts/main.jpg`.
 
 The disk on which styled images will be stored depends on the
-[configuration](config/image-style.php#L78) or the parameters provided to the
+[configuration](config/image-style.php#L80) or the parameters provided to the
 following methods.
 
 > [!IMPORTANT]
@@ -210,7 +218,7 @@ following methods.
 
 > [!NOTE]
 > - Image style(s) parameter can be the image style ID or the class name
->    (with namespace). For example, `App\ImageStyles\ThumbnailImageStyle::class`.
+>    (with namespace). For example, `\App\ImageStyles\ThumbnailImageStyle::class`.
 > - `paths()` - `urls()` - `imagesInformation()` accept multiple
 >    styles as an array or a comma-separated string.
 > - All the above methods accept style parameters (`$styleParameters`) that
@@ -234,7 +242,7 @@ following methods.
 #### Fallback URL
 
 When image style(s) or original image do not exist, and depending on the
-[configuration](config/image-style.php#L65), the `url()`, `urls()`,
+[configuration](config/image-style.php#L67), the `url()`, `urls()`,
 `imageInformation()`, and `imagesInformation()` methods will return the
 default storage URL(s) or empty value(s).
 
@@ -269,7 +277,7 @@ php artisan image-style:flush
 ## Usage Examples
 
 Usage examples are available in the
-[Laravel Image Style Demo repository](https://github.com/balismatz/laravel-image-style-demo).
+[Image Style for Laravel Demo repository](https://github.com/balismatz/laravel-image-style-demo).
 
 ## Preview
 
@@ -283,7 +291,7 @@ You can preview the image style modifications by calling the
 
 When the [`optimize`](https://laravel.com/docs/master/deployment#optimization)
 Artisan command is executed, all image style information is persisted to the
-[configured cache store](config/image-style.php#L90), which improves the
+[configured cache store](config/image-style.php#L92), which improves the
 performance of image style information retrieval.
 
 If the `optimize` Artisan command is not part of your deployment process,
@@ -315,5 +323,5 @@ php artisan image-style:cache
 
 ## License
 
-Laravel Image Style is open-sourced software licensed under the
+Image Style for Laravel is open-sourced software licensed under the
 [MIT license](LICENSE.md).

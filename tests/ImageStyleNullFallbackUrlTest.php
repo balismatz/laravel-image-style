@@ -4,6 +4,7 @@ namespace BalisMatz\ImageStyle\Tests;
 
 use BalisMatz\ImageStyle\Information\ImageStyleImageInformation;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
 
 class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
@@ -167,7 +168,7 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -264,7 +265,7 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -400,7 +401,7 @@ class ImageStyleNullFallbackUrlTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');

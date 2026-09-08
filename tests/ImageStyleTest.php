@@ -3,6 +3,7 @@
 namespace BalisMatz\ImageStyle\Tests;
 
 use BalisMatz\ImageStyle\Information\ImageStyleImageInformation;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
@@ -118,7 +119,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_style_image_visibility(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -135,7 +136,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_style_image_visibility_private(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -177,7 +178,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_jpeg_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -194,7 +195,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_webp_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -211,7 +212,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_png_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -228,7 +229,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_gif_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -245,7 +246,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_bmp_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -262,7 +263,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_avif_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -279,7 +280,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_tiff_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -296,7 +297,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_jpeg_2000_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -313,7 +314,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_path_to_heic_style_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -531,7 +532,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_styles_image_visibility(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -550,7 +551,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_styles_image_visibility_private(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -585,7 +586,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_jpeg_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -604,7 +605,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_webp_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -623,7 +624,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_png_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -642,7 +643,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_gif_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -661,7 +662,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_bmp_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -680,7 +681,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_avif_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -699,7 +700,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_tiff_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -718,7 +719,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_jpeg_2000_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -737,7 +738,7 @@ class ImageStyleTest extends ImageStyleTestBase
      */
     public function test_paths_to_heic_styles_image(): void
     {
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -797,7 +798,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -817,7 +818,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -875,7 +876,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -895,7 +896,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -961,7 +962,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -988,7 +989,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1016,12 +1017,12 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1049,7 +1050,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $stylePath = $localFilesystem->url($path);
@@ -1130,7 +1131,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1161,7 +1162,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1191,7 +1192,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1222,12 +1223,12 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1259,7 +1260,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $stylePath = $localFilesystem->url($path);
@@ -1317,7 +1318,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $this->assertEquals(
@@ -1333,7 +1334,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1394,7 +1395,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1416,7 +1417,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
@@ -1438,12 +1439,12 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-image'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $styleFilesystem */
+        /** @var FilesystemAdapter $styleFilesystem */
         $styleFilesystem = Storage::disk(config('image-style.filesystem'));
 
         $styleFilesystemUrl = $styleFilesystem->url('');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $this->assertEquals(
@@ -1464,7 +1465,7 @@ class ImageStyleTest extends ImageStyleTestBase
     {
         $path = $this->filePaths['local-document'];
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $localFilesystem */
+        /** @var FilesystemAdapter $localFilesystem */
         $localFilesystem = Storage::disk('local');
 
         $stylePath = $localFilesystem->url($path);

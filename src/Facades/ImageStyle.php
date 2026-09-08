@@ -73,7 +73,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void flushMacros()
  * @method static mixed macroCall(string $method, array $parameters)
  *
- * @see \BalisMatz\ImageStyle\ImageStyle
+ * @see LaravelImageStyle
  */
 class ImageStyle extends Facade
 {

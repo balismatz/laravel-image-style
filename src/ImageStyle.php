@@ -24,7 +24,7 @@ class ImageStyle
     /**
      * The loaded filesystem adapters.
      *
-     * @var \Illuminate\Filesystem\FilesystemAdapter[]
+     * @var FilesystemAdapter[]
      */
     protected array $loadedFilesystemAdapters = [];
 
@@ -56,8 +56,8 @@ class ImageStyle
      *                                 Optional: Some applications might use multiple disks for files and store styled images at one disk. This can lead to conflicts when there are files with the same name at the same filesystem path. Set a different file name to resolve these conflicts. A possible fix would be to use the source disk as filename prefix or suffix (ie. image => s3-image).
      * @param  bool  $recreate
      *                          Optional: Recreate the styled image.
-     * @return \BalisMatz\ImageStyle\Information\ImageStyleImageInformation|null
-     *                                                                           The styled image URL with information or null.
+     * @return ImageStyleImageInformation|null
+     *                                         The styled image URL with information or null.
      */
     public function imageInformation(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -76,7 +76,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in JPEG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToJpeg(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -96,7 +96,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in WebP graphic format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToWebp(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -116,7 +116,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in PNG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToPng(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -136,7 +136,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in GIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToGif(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -156,7 +156,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in Windows Bitmap format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToBmp(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -176,7 +176,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in AVIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToAvif(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -196,7 +196,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in TIFF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToTiff(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -216,7 +216,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in JPEG 2000 format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToJpeg2000(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -236,7 +236,7 @@ class ImageStyle
     /**
      * Get the styled image URL with information in HEIC format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imageInformation() Check params and return.
+     * @see ImageStyle::imageInformation() Check params and return.
      */
     public function imageInformationToHeic(string $style, string $path, array $styleParameters = [], mixed $informationParameters = null, ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?ImageStyleImageInformation
     {
@@ -272,8 +272,8 @@ class ImageStyle
      *                                 Optional: Some applications might use multiple disks for files and store styled images at one disk. This can lead to conflicts when there are files with the same name at the same filesystem path. Set a different file name to resolve these conflicts. A possible fix would be to use the source disk as filename prefix or suffix (ie. image => s3-image).
      * @param  bool  $recreate
      *                          Optional: Recreate the styled images.
-     * @return \Illuminate\Support\Collection<string, \BalisMatz\ImageStyle\Information\ImageStyleImageInformation|null>
-     *                                                                                                                   The styled image URLs with information or null, keyed by the given values ($styles).
+     * @return Collection<string, ImageStyleImageInformation|null>
+     *                                                             The styled image URLs with information or null, keyed by the given values ($styles).
      */
     public function imagesInformation(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -292,7 +292,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in JPEG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToJpeg(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -312,7 +312,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in WebP graphic format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToWebp(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -332,7 +332,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in PNG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToPng(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -352,7 +352,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in GIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToGif(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -372,7 +372,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in Windows Bitmap format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToBmp(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -392,7 +392,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in AVIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToAvif(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -412,7 +412,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in TIFF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToTiff(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -432,7 +432,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in JPEG 2000 format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToJpeg2000(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -452,7 +452,7 @@ class ImageStyle
     /**
      * Get the styled image URLs with information in HEIC format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::imagesInformation() Check params and return.
+     * @see ImageStyle::imagesInformation() Check params and return.
      */
     public function imagesInformationToHeic(array|string $styles, string $path, array $styleParameters = [], array $informationParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -508,7 +508,7 @@ class ImageStyle
     /**
      * Get the styled image path in JPEG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToJpeg(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -528,7 +528,7 @@ class ImageStyle
     /**
      * Get the styled image path in WebP graphic format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToWebp(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -548,7 +548,7 @@ class ImageStyle
     /**
      * Get the styled image path in PNG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToPng(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -568,7 +568,7 @@ class ImageStyle
     /**
      * Get the styled image path in GIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToGif(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -588,7 +588,7 @@ class ImageStyle
     /**
      * Get the styled image path in Windows Bitmap format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToBmp(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -608,7 +608,7 @@ class ImageStyle
     /**
      * Get the styled image path in AVIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToAvif(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -628,7 +628,7 @@ class ImageStyle
     /**
      * Get the styled image path in TIFF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToTiff(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -648,7 +648,7 @@ class ImageStyle
     /**
      * Get the styled image path in JPEG 2000 format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToJpeg2000(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -668,7 +668,7 @@ class ImageStyle
     /**
      * Get the styled image path in HEIC format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::path() Check params and return.
+     * @see ImageStyle::path() Check params and return.
      */
     public function pathToHeic(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): ?string
     {
@@ -704,8 +704,8 @@ class ImageStyle
      *                          Optional: Recreate the styled images.
      * @param  bool  $relative
      *                          Optional: By default, when using the local driver, the absolute paths to the images will be returned. But, if we want to get the images size, mimetype etc. from "Storage" facade, we must use the relative path. If this parameter is true, the relative path to images will be returned for all drivers.
-     * @return \Illuminate\Support\Collection<string, string|null>
-     *                                                             The styled image paths or null, keyed by the given values ($styles).
+     * @return Collection<string, string|null>
+     *                                         The styled image paths or null, keyed by the given values ($styles).
      */
     public function paths(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -724,7 +724,7 @@ class ImageStyle
     /**
      * Get the styled image paths in JPEG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToJpeg(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -744,7 +744,7 @@ class ImageStyle
     /**
      * Get the styled image paths in WebP graphic format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToWebp(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -764,7 +764,7 @@ class ImageStyle
     /**
      * Get the styled image paths in PNG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToPng(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -784,7 +784,7 @@ class ImageStyle
     /**
      * Get the styled image paths in GIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToGif(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -804,7 +804,7 @@ class ImageStyle
     /**
      * Get the styled image paths in Windows Bitmap format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToBmp(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -824,7 +824,7 @@ class ImageStyle
     /**
      * Get the styled image paths in AVIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToAvif(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -844,7 +844,7 @@ class ImageStyle
     /**
      * Get the styled image paths in TIFF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToTiff(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -864,7 +864,7 @@ class ImageStyle
     /**
      * Get the styled image paths in JPEG 2000 format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToJpeg2000(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -884,7 +884,7 @@ class ImageStyle
     /**
      * Get the styled image paths in HEIC format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::paths() Check params and return.
+     * @see ImageStyle::paths() Check params and return.
      */
     public function pathsToHeic(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, bool $relative = false): Collection
     {
@@ -937,7 +937,7 @@ class ImageStyle
     /**
      * Get the styled image URL in JPEG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToJpeg(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -956,7 +956,7 @@ class ImageStyle
     /**
      * Get the styled image URL in WebP graphic format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToWebp(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -975,7 +975,7 @@ class ImageStyle
     /**
      * Get the styled image URL in PNG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToPng(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -994,7 +994,7 @@ class ImageStyle
     /**
      * Get the styled image URL in GIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToGif(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -1013,7 +1013,7 @@ class ImageStyle
     /**
      * Get the styled image URL in Windows Bitmap format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToBmp(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -1032,7 +1032,7 @@ class ImageStyle
     /**
      * Get the styled image URL in AVIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToAvif(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -1051,7 +1051,7 @@ class ImageStyle
     /**
      * Get the styled image URL in TIFF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToTiff(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -1070,7 +1070,7 @@ class ImageStyle
     /**
      * Get the styled image URL in JPEG 2000 format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToJpeg2000(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -1089,7 +1089,7 @@ class ImageStyle
     /**
      * Get the styled image URL in HEIC format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::url() Check params and return.
+     * @see ImageStyle::url() Check params and return.
      */
     public function urlToHeic(string $style, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): ?string
     {
@@ -1122,8 +1122,8 @@ class ImageStyle
      *                                 Optional: Some applications might use multiple disks for files and store styled images at one disk. This can lead to conflicts when there are files with the same name at the same filesystem path. Set a different file name to resolve these conflicts. A possible fix would be to use the source disk as filename prefix or suffix (ie. image => s3-image).
      * @param  bool  $recreate
      *                          Optional: Recreate the styled images.
-     * @return \Illuminate\Support\Collection<string, string|null>
-     *                                                             The styled image URLs or null, keyed by the given values ($styles).
+     * @return Collection<string, string|null>
+     *                                         The styled image URLs or null, keyed by the given values ($styles).
      */
     public function urls(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1141,7 +1141,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in JPEG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToJpeg(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1160,7 +1160,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in WebP graphic format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToWebp(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1179,7 +1179,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in PNG format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToPng(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1198,7 +1198,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in GIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToGif(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1217,7 +1217,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in Windows Bitmap format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToBmp(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1236,7 +1236,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in AVIF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToAvif(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1255,7 +1255,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in TIFF format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToTiff(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1274,7 +1274,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in JPEG 2000 format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToJpeg2000(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1293,7 +1293,7 @@ class ImageStyle
     /**
      * Get the styled image URLs in HEIC format.
      *
-     * @see \BalisMatz\ImageStyle\ImageStyle::urls() Check params and return.
+     * @see ImageStyle::urls() Check params and return.
      */
     public function urlsToHeic(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false): Collection
     {
@@ -1320,11 +1320,11 @@ class ImageStyle
      *                                  Optional: The style parameters to pass.
      * @param  string|null  $disk
      *                             Optional: The disk to load the image. If it is null, the default disk will be used.
-     * @return \Illuminate\Http\Response
-     *                                   The image preview response.
+     * @return Response
+     *                  The image preview response.
      *
-     * @throws \InvalidArgumentException
-     *                                   If image style does not exist.
+     * @throws InvalidArgumentException
+     *                                  If image style does not exist.
      */
     public function preview(string $style, ?string $path = null, array $styleParameters = [], ?string $disk = null): Response
     {
@@ -1401,8 +1401,8 @@ class ImageStyle
      *                          Optional: Recreate the styled image.
      * @param  string|null  $format
      *                               Optional: The format that image should be saved.
-     * @return \Illuminate\Support\Collection<string, string|null>
-     *                                                             The image paths to filesystem or null, keyed by the given values ($styles).
+     * @return Collection<string, string|null>
+     *                                         The image paths to filesystem or null, keyed by the given values ($styles).
      */
     protected function findOrCreate(array|string $styles, string $path, array $styleParameters = [], ?string $disk = null, bool $styleSameDisk = false, ?string $filename = null, bool $recreate = false, ?string $format = null): Collection
     {
@@ -1647,7 +1647,7 @@ class ImageStyle
      */
     protected function getModifiedImage(string $styleClass, string|ImageInterface $input, array $styleParameters = [], ?string $format = null): ImageInterface|EncodedImageInterface
     {
-        /** @var \BalisMatz\ImageStyle\ImageStyleBase $style */
+        /** @var ImageStyleBase $style */
         $style = new $styleClass;
 
         $image = $this->imageManager->read($input);

@@ -23,7 +23,7 @@ class ImageStyleManager
     /**
      * Get all image styles information.
      *
-     * @return \Illuminate\Support\Collection<string, \BalisMatz\ImageStyle\Information\ImageStyleInformation>
+     * @return Collection<string, ImageStyleInformation>
      */
     public function all(): Collection
     {
