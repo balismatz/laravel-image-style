@@ -194,7 +194,7 @@ following methods.
 
     > This is useful when displaying responsive images - based on image styles -
     > with the `<img>` HTML tag
-    > ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images)).
+    > ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images)).
 
 6. **[imagesInformation()](src/ImageStyle.php#L110)**
 
