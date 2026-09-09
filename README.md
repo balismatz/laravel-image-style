@@ -75,7 +75,7 @@ After running the command above, you will be prompted for the following:
 
    > - If the image style ID cannot be generated from the provided class name,
    > it falls back to "default".
-   > - If multiple image styles have the same ID, the first detected will be
+   > - If multiple image styles have the same ID, the first one detected will be
    > considered valid.
 
 3. ***Help text***
@@ -141,9 +141,9 @@ following methods.
 
 > [!IMPORTANT]
 > - The following methods are available through:
->   - Facade: `BalisMatz\ImageStyle\Facades\ImageStyle`
+>   - Facade: `\BalisMatz\ImageStyle\Facades\ImageStyle`
 >   - Function: `imageStyle()`
->   - Dependency injection: `BalisMatz\ImageStyle\ImageStyle`
+>   - Dependency injection: `\BalisMatz\ImageStyle\ImageStyle`
 >
 > - In Blade templates, the `ImageStyle` facade can be used without
 > namespace `{{ ImageStyle::url() }}`.
@@ -156,7 +156,7 @@ following methods.
     creates, recreates (based on the provided parameters), or retrieves the styled image and
     returns its storage path.
 
-    > Provides a basic functionality and is useful when you simply need to
+    > Provides basic functionality and is useful when you simply need to
     > create a styled image. See the "Performance" section below.
 
 2. **[url()](src/ImageStyle.php#L924)**
@@ -173,12 +173,11 @@ following methods.
     Based on the given image style and the original image path, this method
     creates, recreates (based on the provided parameters), or retrieves the styled image and
     returns an `ImageStyleImageInformation` object containing the image URL,
-    height, width, mimetype, and the provided parameters.
+    height, width, MIME type, and the provided parameters.
 
     > This is useful when displaying a styled image using the `<img>`
-    > HTML tag and the `lazy` loading attribute. You may specify the
-    > `<img>` height and width to avoid unexpected behaviors
-    > (e.g., flickering).
+    > HTML tag with its `loading` attribute set to `lazy`. You may specify the
+    > `height` and `width` attributes to avoid layout shifts.
 
 4. **[paths()](src/ImageStyle.php#L710)**
 
@@ -186,7 +185,7 @@ following methods.
     path, this method creates, recreates (based on the provided parameters), or retrieves the
     styled images and returns their storage paths.
 
-    > Provides a basic functionality and is useful when you simply need to
+    > Provides basic functionality and is useful when you simply need to
     > create multiple styled images. See the "Performance" section below.
 
 5. **[urls()](src/ImageStyle.php#L1128)**
@@ -197,19 +196,19 @@ following methods.
 
     > This is useful when displaying responsive images - based on image styles -
     > with the `<img>` HTML tag
-    > ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images)).
+    > ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images)).
 
 6. **[imagesInformation()](src/ImageStyle.php#L278)**
 
     Based on the given image styles (array or string) and the original image
     path, this method creates, recreates (based on the provided parameters), or retrieves the
     styled images and returns a collection of `ImageStyleImageInformation`
-    objects containing the image URL, height, width, mimetype, and the provided
+    objects containing the image URL, height, width, MIME type, and the provided
     parameters.
 
     > This is useful when displaying responsive images - based on image styles - with
-    > the `<img>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images))
-    > or `<picture>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture))
+    > the `<img>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images))
+    > or `<picture>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/picture))
     > HTML tags.
     >
     > You can provide parameters for each image style. These parameters will be
@@ -217,8 +216,8 @@ following methods.
     > for example, to define the media query associated with each styled image.
 
 > [!NOTE]
-> - Image style(s) parameter can be the image style ID or the class name
->    (with namespace). For example, `\App\ImageStyles\ThumbnailImageStyle::class`.
+> - Image style(s) parameter can be the image style ID or the fully qualified
+>    class name. For example, `\App\ImageStyles\ThumbnailImageStyle::class`.
 > - `paths()` - `urls()` - `imagesInformation()` accept multiple
 >    styles as an array or a comma-separated string.
 > - All the above methods accept style parameters (`$styleParameters`) that
@@ -241,7 +240,7 @@ following methods.
 
 #### Fallback URL
 
-When image style(s) or original image do not exist, and depending on the
+When the requested image or image style(s) do not exist, and depending on the
 [configuration](config/image-style.php#L67), the `url()`, `urls()`,
 `imageInformation()`, and `imagesInformation()` methods will return the
 default storage URL(s) or empty value(s).
@@ -276,20 +275,20 @@ php artisan image-style:flush
 
 ## Usage Examples
 
-Usage examples are available in the
-[Image Style for Laravel Demo repository](https://github.com/balismatz/laravel-image-style-demo).
+Usage examples for creating image styles and creating / retrieving styled images
+are available in the [Image Style for Laravel Demo repository](https://github.com/balismatz/laravel-image-style-demo).
 
 ## Preview
 
-You can preview the image style modifications by calling the
+You can preview image style modifications by calling the
 [`preview()`](src/ImageStyle.php#L1329) method.
 
 > [!NOTE]
-> Preview image is provided by [Freepik](https://www.freepik.com/).
+> The preview image is provided by [Freepik](https://www.freepik.com/).
 
 ## Deployment
 
-When the [`optimize`](https://laravel.com/docs/master/deployment#optimization)
+When the [`optimize`](https://laravel.com/framework/docs/master/deployment#optimization)
 Artisan command is executed, all image style information is persisted to the
 [configured cache store](config/image-style.php#L92), which improves the
 performance of image style information retrieval.
@@ -310,7 +309,7 @@ php artisan image-style:cache
    - The class extends the `ImageStyleBase` class.
    - The class is not declared as `abstract`.
 
-   If everything above is correct, clear the image styles information
+   If everything above is correct, clear the image style information
    cache by running the following command:
 
    ```shell
