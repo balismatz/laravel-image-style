@@ -108,7 +108,8 @@ class Thumbnail extends ImageStyleBase
     public function manipulations(Image $image, mixed $parameters): Image
     {
         return $image
-            ->cover(300, 250);
+            ->cover(300, 250)
+            ->flipHorizontally();
     }
 }
 ```
@@ -205,8 +206,8 @@ following methods.
     the provided parameters.
 
     > This is useful when displaying responsive images - based on image styles -
-    > with the `<img>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Responsive_images))
-    > or `<picture>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture))
+    > with the `<img>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Responsive_images))
+    > or `<picture>` ([more information](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/picture))
     > HTML tags.
     >
     > You can provide parameters for each image style. These parameters will be
@@ -283,7 +284,7 @@ You can preview image style manipulations by calling the
 
 ## Deployment
 
-When the [`optimize`](https://laravel.com/docs/master/deployment#optimization)
+When the [`optimize`](https://laravel.com/framework/docs/master/deployment#optimization)
 Artisan command is executed, all image style information is persisted to the
 [configured cache store](config/image-style.php#L55), which improves the
 performance of image style information retrieval.
